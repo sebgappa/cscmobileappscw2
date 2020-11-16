@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">MyNewsApp</string>
+    <string name="favorite">favorite</string>
+    <string name="search">search</string>
+    <string name="headlines">headlines</string>
+    <string name="account">account</string>
+    <string name="countries">Countries</string>
+    <string name="sources">Sources</string>
+    <string name="topics">Topics</string>
+    <string name="search_preferences">Search for your preferences</string>
+    <string name="app_label">MyNewsApp</string>
+</resources>
