@@ -35,39 +35,42 @@ class SearchActivity: AppCompatActivity() {
 
         (listView as ListView).onItemClickListener =
                 AdapterView.OnItemClickListener { _, _, i, _ ->
-                    val preferenceType = searchResults[i].type
-                    var preferences = hashMapOf<String, Any>()
+                    val preferenceType: Any = searchResults[i].type!!
+                    val preferenceName: String = searchResults[i].preferenceName!!
 
-                    when {
-                        preferenceType.equals("Country") -> {
-                            preferences[preferenceType!!] = searchResults[i].preferenceName!!
-                        }
-                        preferenceType.equals("Source") -> {
-                            preferences[preferenceType!!] = searchResults[i].preferenceName!!
-                        }
-                        preferenceType.equals("Topic") -> {
-                            preferences[preferenceType!!] = searchResults[i].preferenceName!!
-                        }
-                    }
+                    fireStore.savePreferences(
+                            FirebaseAuth.getInstance().currentUser?.displayName.toString(),
+                            hashMapOf(preferenceName to preferenceType))
 
-                    fireStore.Save(FirebaseAuth.getInstance().currentUser?.displayName.toString(), "Preferences", preferences)
                     startActivity(Intent(this, FavoriteInfoActivity::class.java))
                 }
 
         if (Intent.ACTION_SEARCH == intent.action) {
-            intent.getStringExtra(SearchManager.QUERY)?.also {
-                query -> search(query)
+            intent.getStringExtra(SearchManager.QUERY)?.also { query ->
+                search(query)
             }
         }
     }
 
     private fun search(query: String) {
         val searchData = arrayOf(
-                arrayOf("United Kingdom", "Country"),
-                arrayOf("Science", "Topic"),
-                arrayOf("BBC News", "Country"),
-                arrayOf("Google News", "Source"),
-                arrayOf("Technology", "Topic"))
+            arrayOf("United Kingdom", "Country"),
+            arrayOf("Science", "Topic"),
+            arrayOf("BBC News", "Source"),
+            arrayOf("Google News", "Source"),
+            arrayOf("Technology", "Topic"),
+            arrayOf("Economics", "Topic"),
+            arrayOf("General", "Topic"),
+            arrayOf("Health", "Topic"),
+            arrayOf("Entertainment", "Topic"),
+            arrayOf("ITV News", "Source"),
+            arrayOf("Daily Mail", "Source"),
+            arrayOf("The Guardian", "Source"),
+            arrayOf("Germany", "Country"),
+            arrayOf("France", "Country"),
+            arrayOf("United State", "Country"),
+            arrayOf("Belgium", "Country")
+        )
 
         val normalisedQuery = normalise(query)
 
@@ -85,9 +88,9 @@ class SearchActivity: AppCompatActivity() {
 
     private fun normalise(query: String): List<String> {
         val list = Normalizer.normalize(query.toLowerCase(Locale.ROOT), Normalizer.Form.NFD)
-                .replace("\\p{M}".toRegex(), "")
-                .split(" ")
-                .toMutableList()
+            .replace("\\p{M}".toRegex(), "")
+            .split(" ")
+            .toMutableList()
 
         for (word in list) if (word == " ") list.remove(word)
 

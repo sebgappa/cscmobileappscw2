@@ -33,7 +33,7 @@ class SearchListViewAdapter(private val activity: Activity, searchResults: List<
     override fun getView(i: Int, convertView: View?, viewGroup: ViewGroup): View {
         var convertView = convertView
         val inflater = activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        convertView = inflater.inflate(R.layout.list_item, null)
+        convertView = inflater.inflate(R.layout.search_list_item, null)
         val label = convertView.findViewById<TextView>(R.id.label)
         label.text = searchResults[i].preferenceName
         return convertView
