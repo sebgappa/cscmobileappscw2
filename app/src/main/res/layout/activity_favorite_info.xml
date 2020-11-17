@@ -52,15 +52,6 @@
                         android:layout_height="wrap_content">
                     </ListView>
 
-                    <com.google.android.material.button.MaterialButton android:layout_height="wrap_content"
-                        android:id="@+id/topics_add"
-                        android:layout_width="wrap_content"
-                        android:layout_gravity="center"
-                        app:icon="@drawable/contrast"
-                        android:text="Add"
-                        android:onClick="goToSearch">
-                    </com.google.android.material.button.MaterialButton>
-
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
             </com.google.android.material.card.MaterialCardView>
@@ -89,13 +80,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
                     </ListView>
-
-                    <com.google.android.material.button.MaterialButton android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:layout_gravity="center"
-                        app:icon="@drawable/contrast"
-                        android:text="Add">
-                    </com.google.android.material.button.MaterialButton>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -126,16 +110,18 @@
                         android:layout_height="wrap_content">
                     </ListView>
 
-                    <com.google.android.material.button.MaterialButton android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:layout_gravity="center"
-                        app:icon="@drawable/contrast"
-                        android:text="Add">
-                    </com.google.android.material.button.MaterialButton>
-
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
             </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.button.MaterialButton android:layout_height="wrap_content"
+                android:id="@+id/preferences_add"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                app:icon="@drawable/add"
+                android:text="Add"
+                android:onClick="goToSearchPreferences">
+            </com.google.android.material.button.MaterialButton>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -35,22 +35,14 @@ class SearchActivity: AppCompatActivity() {
 
         (listView as ListView).onItemClickListener =
                 AdapterView.OnItemClickListener { _, _, i, _ ->
-                    val preferenceType = searchResults[i].type
-                    var preferences = hashMapOf<String, Any>()
+                    val preferenceType: Any = searchResults[i].type!!
+                    val preferenceName: String = searchResults[i].preferenceName!!
 
-                    when {
-                        preferenceType.equals("Country") -> {
-                            preferences[preferenceType!!] = searchResults[i].preferenceName!!
-                        }
-                        preferenceType.equals("Source") -> {
-                            preferences[preferenceType!!] = searchResults[i].preferenceName!!
-                        }
-                        preferenceType.equals("Topic") -> {
-                            preferences[preferenceType!!] = searchResults[i].preferenceName!!
-                        }
-                    }
+                    fireStore.savePreferences(
+                            FirebaseAuth.getInstance().currentUser?.displayName.toString(),
+                            preferenceName,
+                            hashMapOf("Type" to preferenceType))
 
-                    fireStore.Save(FirebaseAuth.getInstance().currentUser?.displayName.toString(), "Preferences", preferences)
                     startActivity(Intent(this, FavoriteInfoActivity::class.java))
                 }
 
@@ -65,7 +57,7 @@ class SearchActivity: AppCompatActivity() {
         val searchData = arrayOf(
                 arrayOf("United Kingdom", "Country"),
                 arrayOf("Science", "Topic"),
-                arrayOf("BBC News", "Country"),
+                arrayOf("BBC News", "Source"),
                 arrayOf("Google News", "Source"),
                 arrayOf("Technology", "Topic"))
 

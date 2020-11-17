@@ -13,6 +13,8 @@ import com.google.firebase.auth.FirebaseAuth
 
 class FavoriteInfoActivity: AppCompatActivity() {
 
+    private val fireStore =  FireStoreService()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorite_info)
@@ -35,6 +37,8 @@ class FavoriteInfoActivity: AppCompatActivity() {
         sourcesListView.adapter = sourcesAdapter
         countriesListView.adapter = countriesAdapter
         setSupportActionBar(mainToolbar)
+
+        val test = fireStore.getPreferences(FirebaseAuth.getInstance().currentUser?.displayName.toString(), "Source")
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -57,7 +61,7 @@ class FavoriteInfoActivity: AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun goToSearch(view: View) {
+    fun goToSearchPreferences(view: View) {
         startActivity(Intent(this, SearchActivity::class.java))
     }
 }
