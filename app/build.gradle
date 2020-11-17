@@ -47,4 +47,9 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
     implementation 'com.google.firebase:firebase-auth:20.0.1'
     implementation 'com.google.firebase:firebase-firestore-ktx:22.0.0'
+
+    //News API
+    implementation 'com.github.dfloureiro:news-api-kotlin:v2.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.8'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }

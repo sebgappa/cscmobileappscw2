@@ -28,6 +28,9 @@ class SignInActivity: AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
         configureClient()
 
+        //Prompt user to choose account
+        googleSignInClient.signOut()
+
         val signInButton = findViewById<Button>(R.id.google_sign_in)
         signInButton.setOnClickListener {
             signIn()

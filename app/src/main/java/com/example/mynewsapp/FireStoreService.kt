@@ -1,6 +1,8 @@
 package com.example.mynewsapp
 
 import android.util.Log
+import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.SetOptions
@@ -13,11 +15,9 @@ class FireStoreService {
         private const val TAG = "FireStoreAdapter"
     }
 
-    fun savePreferences(collectionName: String, documentName: String, data: MutableMap<String, Any>) {
+    fun savePreferences(collectionName: String, data: MutableMap<String, Any>) {
         db.collection(collectionName)
                 .document("Preferences")
-                .collection("All Preferences")
-                .document(documentName)
                 .set(data, SetOptions.merge())
                 .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully written!") }
                 .addOnFailureListener { e ->
@@ -25,23 +25,20 @@ class FireStoreService {
                 }
     }
 
-    fun getPreferences(collectionName: String, type: String): ArrayList<String> {
+    fun getPreferences(collectionName: String): Task<DocumentSnapshot> {
 
-        val result = ArrayList<String>()
-
-        db.collection(collectionName)
-                .document("Preferences")
-                .collection("All Preferences")
-                .get()
-                .addOnSuccessListener { documents ->
-                    for (document: QueryDocumentSnapshot in documents!!) {
-                        result.add(document.id)
-                    }
-                }
-                .addOnFailureListener{
-                    exception -> Log.w(TAG, "Error getting documents", exception)
-                }
-
-        return result
+        return db.collection(collectionName)
+            .document("Preferences")
+            .get()
+//            .addOnSuccessListener { document ->
+//                if (document != null) {
+//                    Log.d(TAG, "DocumentSnapshot data: ${document.data}")
+//                } else {
+//                    Log.d(TAG, "No such document")
+//                }
+//            }
+//            .addOnFailureListener { exception ->
+//                Log.d(TAG, "get failed with ", exception)
+//            }
     }
 }
