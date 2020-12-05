@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/welcome"
+        android:layout_centerInParent="true"
+        android:textColor="@color/white"
+        android:textSize="30sp">
+    </TextView>
 
     <Button
         android:id="@+id/google_sign_in"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center|bottom"
+        android:layout_alignParentBottom="true"
         android:drawableLeft="@drawable/googleicon"
         android:elevation="8dp"
         android:onClick="signIn"
-        android:text="Sign In with Google"
+        android:text="@string/sign_in_with_google"
         android:textColor="#fff" />
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+</RelativeLayout>
