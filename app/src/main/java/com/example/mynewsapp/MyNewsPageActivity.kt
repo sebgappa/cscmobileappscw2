@@ -16,7 +16,7 @@ import com.dfl.newsapi.model.ArticlesDto
 import com.google.firebase.auth.FirebaseAuth
 import io.reactivex.schedulers.Schedulers
 
-class   MyNewsPageActivity: AppCompatActivity() {
+class MyNewsPageActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_news_page)
@@ -24,7 +24,7 @@ class   MyNewsPageActivity: AppCompatActivity() {
         val mainToolbar = findViewById<Toolbar>(R.id.main_appbar)
         setSupportActionBar(mainToolbar)
 
-        fetchNewsArticles()
+        //fetchNewsArticles()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -50,13 +50,13 @@ class   MyNewsPageActivity: AppCompatActivity() {
         val newsApiRepository = NewsApiRepository("f1010fbbbebb48aba026e6c2c47cc9e2")
 
         newsApiRepository.getTopHeadlines(
-            category = Category.GENERAL,
-            country = Country.GB,
-            pageSize = 20,
-            page = 1).subscribeOn(Schedulers.io())
-            .toFlowable().subscribe({ articles ->
-                populateArticles(articles)
-            }, { t -> Log.d("getTopHeadlines error", t.message.toString()) })
+                category = Category.GENERAL,
+                country = Country.GB,
+                pageSize = 20,
+                page = 1).subscribeOn(Schedulers.io())
+                .toFlowable().subscribe({ articles ->
+                    populateArticles(articles)
+                }, { t -> Log.d("getTopHeadlines error", t.message.toString()) })
     }
 
     private fun populateArticles(articles: ArticlesDto) {
@@ -69,6 +69,7 @@ class   MyNewsPageActivity: AppCompatActivity() {
                 myArticle.setPublishedDate(article.publishedAt)
                 myArticle.setUrlToImage(article.urlToImage)
                 myArticle.setUrl(article.url)
+                myArticle.setPublisher(article.source.name)
                 articleList.add(myArticle)
             }
 
