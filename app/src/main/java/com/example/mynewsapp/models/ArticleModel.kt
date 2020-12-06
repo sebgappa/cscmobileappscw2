@@ -1,6 +1,6 @@
-package com.example.mynewsapp
+package com.example.mynewsapp.models
 
-class Article
+class ArticleModel
 {
     private var title: String? = null
     private var description: String? = null

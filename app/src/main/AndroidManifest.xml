@@ -11,17 +11,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyNewsApp">
-        <activity android:name=".MainActivity">
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".FavoriteInfoActivity"></activity>
-        <activity android:name=".MyNewsPageActivity"></activity>
-        <activity android:name=".SignInActivity"></activity>
-        <activity android:name=".SearchActivity">
+        <activity android:name=".activities.FavoriteInfoActivity"></activity>
+        <activity android:name=".activities.MyNewsPageActivity"></activity>
+        <activity android:name=".activities.SignInActivity"></activity>
+        <activity android:name=".activities.SearchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH"></action>
             </intent-filter>
@@ -29,7 +29,7 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable"/>
         </activity>
-        <activity android:name=".DisplayArticleActivity"></activity>
+        <activity android:name=".activities.DisplayArticleActivity"></activity>
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package com.example.mynewsapp
+package com.example.mynewsapp.adapters
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
+import com.example.mynewsapp.R
+import com.example.mynewsapp.models.PreferenceModel
 
 class SearchListViewAdapter(private val activity: Activity, searchResults: List<PreferenceModel>): BaseAdapter() {
 

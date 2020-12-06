@@ -1,6 +1,5 @@
-package com.example.mynewsapp
+package com.example.mynewsapp.adapters
 
-import android.R.id
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -9,13 +8,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.internal.ContextUtils.getActivity
+import com.example.mynewsapp.activities.DisplayArticleActivity
+import com.example.mynewsapp.R
+import com.example.mynewsapp.models.ArticleModel
 import com.squareup.picasso.Picasso
 
 
-class ArticleAdapter(private var articleList: MutableList<Article>, private val currentContext: Context)
+class ArticleAdapter(private var articleList: MutableList<ArticleModel>, private val currentContext: Context)
     : RecyclerView.Adapter<ArticleAdapter.ViewHolder>() {
 
     private val placeHolderImage = "https://pbs.twimg.com/profile_images/467502291415617536/SP8_ylk9.png"
@@ -31,11 +31,11 @@ class ArticleAdapter(private var articleList: MutableList<Article>, private val 
     }
 
     override fun onBindViewHolder(articleViewHolder: ViewHolder, position: Int) {
-        var article: Article = articleList[position]
+        var article: ArticleModel = articleList[position]
         setPropertiesForArticleViewHolder(articleViewHolder, article)
     }
 
-    private fun setPropertiesForArticleViewHolder(articleViewHolder: ViewHolder, article: Article) {
+    private fun setPropertiesForArticleViewHolder(articleViewHolder: ViewHolder, article: ArticleModel) {
         checkForUrlToImage(article, articleViewHolder)
         articleViewHolder.articleTitle.text = article.articleTitle()
         articleViewHolder.articlePublisher.text = article.publisher()
@@ -49,19 +49,19 @@ class ArticleAdapter(private var articleList: MutableList<Article>, private val 
         }
     }
 
-    private fun checkForUrlToImage(article: Article, articleViewHolder: ViewHolder) {
-        if (article.articleImage() == null || article.articleImage().isEmpty()) {
+    private fun checkForUrlToImage(article: ArticleModel, articleViewHolder: ViewHolder) {
+        if (article.articleImage().isEmpty()) {
             Picasso.get()
-                .load(placeHolderImage)
-                .centerCrop()
-                .fit()
-                .into(articleViewHolder.articleImage)
+                    .load(placeHolderImage)
+                    .centerCrop()
+                    .fit()
+                    .into(articleViewHolder.articleImage)
         } else {
             Picasso.get()
-                .load(article.articleImage())
-                .centerCrop()
-                .fit()
-                .into(articleViewHolder.articleImage)
+                    .load(article.articleImage())
+                    .centerCrop()
+                    .fit()
+                    .into(articleViewHolder.articleImage)
         }
     }
 
