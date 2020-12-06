@@ -2,18 +2,24 @@ package com.example.mynewsapp.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.viewpager2.widget.ViewPager2
 import com.example.mynewsapp.R
 import com.example.mynewsapp.adapters.TabAdapter
+import com.example.mynewsapp.services.FireStoreService
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 
 class MyNewsPageActivity : AppCompatActivity() {
+
+    private val fireStore = FireStoreService()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_news_page)
@@ -23,15 +29,38 @@ class MyNewsPageActivity : AppCompatActivity() {
 
         val tabLayout = findViewById<TabLayout>(R.id.tab_layout)
         val viewPager = findViewById<ViewPager2>(R.id.view_pager)
-        val titles = arrayOf("Science", "BBC News", "Sports")
 
-        viewPager.adapter =
-            TabAdapter(this, titles)
-        TabLayoutMediator(tabLayout, viewPager, TabLayoutMediator.TabConfigurationStrategy{tab, position ->
-            for (i in titles.indices) {
-                if(position == i) tab.text = titles[i]
+        var preferredNewsTitles = ArrayList<String>()
+        val result =
+            fireStore.getPreferences(FirebaseAuth.getInstance().currentUser?.displayName.toString())
+        result.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                var mapEntry = task.result!!.data
+                if (mapEntry != null) {
+                    for (item in mapEntry) {
+                        preferredNewsTitles.add(item.key)
+                    }
+                    setTabTitles(viewPager, tabLayout, preferredNewsTitles)
+                }
+            } else {
+                Log.e("MyNewsPageActivity", task.exception.toString())
             }
-        }).attach()
+        }
+    }
+
+    private fun setTabTitles(viewPager: ViewPager2, tabLayout: TabLayout, preferredNewsTitles: ArrayList<String>) {
+        this@MyNewsPageActivity!!.runOnUiThread {
+            viewPager.adapter =
+                TabAdapter(this, preferredNewsTitles)
+            TabLayoutMediator(
+                tabLayout,
+                viewPager,
+                TabLayoutMediator.TabConfigurationStrategy { tab, position ->
+                    for (i in preferredNewsTitles.indices) {
+                        if (position == i) tab.text = preferredNewsTitles[i]
+                    }
+                }).attach()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

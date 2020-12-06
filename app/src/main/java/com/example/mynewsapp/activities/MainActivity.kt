@@ -25,6 +25,6 @@ class MainActivity : AppCompatActivity() {
             } else {
                 startActivity(Intent(this, SignInActivity::class.java))
             }
-        }, 1500)
+        }, 1500) // Allows time to display the splash screen
     }
 }

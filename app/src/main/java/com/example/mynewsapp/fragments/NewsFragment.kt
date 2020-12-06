@@ -33,7 +33,7 @@ class NewsFragment(private val contentType: String) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        fetchNewsArticles()
+        //fetchNewsArticles()
     }
 
     private fun fetchNewsArticles() {

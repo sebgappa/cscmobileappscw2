@@ -75,7 +75,7 @@ class SearchActivity: AppCompatActivity() {
             arrayOf("The Guardian", "Source"),
             arrayOf("Germany", "Country"),
             arrayOf("France", "Country"),
-            arrayOf("United State", "Country"),
+            arrayOf("United States", "Country"),
             arrayOf("Belgium", "Country")
         )
 

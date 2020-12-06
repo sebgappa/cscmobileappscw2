@@ -75,7 +75,7 @@ class FavoriteInfoActivity: AppCompatActivity() {
             }
         }
 
-        this@FavoriteInfoActivity!!.runOnUiThread(Runnable {
+        this@FavoriteInfoActivity!!.runOnUiThread {
             val topicsAdapter = ArrayAdapter<String>(this,
                 R.layout.preference_list_item, topicsArray)
             val sourcesAdapter = ArrayAdapter<String>(this,
@@ -90,6 +90,6 @@ class FavoriteInfoActivity: AppCompatActivity() {
             topicsListView.adapter = topicsAdapter
             sourcesListView.adapter = sourcesAdapter
             countriesListView.adapter = countriesAdapter
-        })
+        }
     }
 }
