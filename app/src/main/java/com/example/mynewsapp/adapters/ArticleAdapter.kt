@@ -68,7 +68,6 @@ class ArticleAdapter(private var articleList: MutableList<ArticleModel>, private
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var articleImage: ImageView = itemView.findViewById(R.id.article_image)
-        var articlePublisherImage: ImageView = itemView.findViewById(R.id.article__publisher_image)
         var articleTitle: TextView = itemView.findViewById(R.id.article_title)
         var articlePublisher: TextView = itemView.findViewById(R.id.article_publisher)
         var articlePublished: TextView = itemView.findViewById(R.id.article_published)
