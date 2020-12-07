@@ -1,4 +1,4 @@
-package com.example.mynewsapp
+package com.example.mynewsapp.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +8,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.example.mynewsapp.R
 import com.google.firebase.auth.FirebaseAuth
 
 

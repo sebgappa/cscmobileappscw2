@@ -1,4 +1,4 @@
-package com.example.mynewsapp
+package com.example.mynewsapp.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,18 +10,19 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import com.google.android.material.snackbar.Snackbar
+import com.example.mynewsapp.R
+import com.example.mynewsapp.services.FireStoreService
 import com.google.firebase.auth.FirebaseAuth
 
 class FavoriteInfoActivity: AppCompatActivity() {
 
-    private val fireStore =  FireStoreService()
+    private val fireStoreService = FireStoreService()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorite_info)
 
-        val result = fireStore.getPreferences(FirebaseAuth.getInstance().currentUser?.displayName.toString())
+        val result = fireStoreService.getPreferences(FirebaseAuth.getInstance().currentUser?.displayName.toString())
         result.addOnCompleteListener { task ->
             if(task.isSuccessful) {
                 var mapEntry = task.result!!.data
@@ -74,10 +75,13 @@ class FavoriteInfoActivity: AppCompatActivity() {
             }
         }
 
-        this@FavoriteInfoActivity!!.runOnUiThread(Runnable {
-            val topicsAdapter = ArrayAdapter<String>(this, R.layout.preference_list_item, topicsArray)
-            val sourcesAdapter = ArrayAdapter<String>(this, R.layout.preference_list_item, sourcesArray)
-            val countriesAdapter = ArrayAdapter<String>(this, R.layout.preference_list_item, countriesArray)
+        this@FavoriteInfoActivity!!.runOnUiThread {
+            val topicsAdapter = ArrayAdapter<String>(this,
+                R.layout.preference_list_item, topicsArray)
+            val sourcesAdapter = ArrayAdapter<String>(this,
+                R.layout.preference_list_item, sourcesArray)
+            val countriesAdapter = ArrayAdapter<String>(this,
+                R.layout.preference_list_item, countriesArray)
 
             val topicsListView = findViewById<ListView>(R.id.topics_list)
             val sourcesListView = findViewById<ListView>(R.id.sources_list)
@@ -86,6 +90,6 @@ class FavoriteInfoActivity: AppCompatActivity() {
             topicsListView.adapter = topicsAdapter
             sourcesListView.adapter = sourcesAdapter
             countriesListView.adapter = countriesAdapter
-        })
+        }
     }
 }

@@ -1,10 +1,11 @@
-package com.example.mynewsapp
+package com.example.mynewsapp.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import com.example.mynewsapp.R
 import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
@@ -24,6 +25,6 @@ class MainActivity : AppCompatActivity() {
             } else {
                 startActivity(Intent(this, SignInActivity::class.java))
             }
-        }, 1500)
+        }, 1500) // Allows time to display the splash screen
     }
 }

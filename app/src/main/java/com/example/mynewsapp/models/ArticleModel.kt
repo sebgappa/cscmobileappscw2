@@ -1,6 +1,6 @@
-package com.example.mynewsapp
+package com.example.mynewsapp.models
 
-class Article
+class ArticleModel
 {
     private var title: String? = null
     private var description: String? = null
@@ -8,7 +8,6 @@ class Article
     private var publishedDate: String? = null
     private var urlToImage: String? = null
     private var url: String? = null
-    private var publisherImagePointer = 0
 
     fun articleTitle(): String {
         return this.title.toString()
@@ -24,10 +23,6 @@ class Article
 
     fun articleImage(): String {
         return urlToImage.toString()
-    }
-
-    fun publisherImage(): Int {
-        return publisherImagePointer
     }
 
     fun description(): String {
@@ -52,10 +47,6 @@ class Article
 
     fun setUrlToImage(urlToImage: String?) {
         this.urlToImage = urlToImage
-    }
-
-    fun setPublisherImage(imagePointer: Int) {
-        this.publisherImagePointer = imagePointer
     }
 
     fun setDescription(articleDescription: String?) {

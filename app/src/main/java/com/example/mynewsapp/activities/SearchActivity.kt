@@ -1,4 +1,4 @@
-package com.example.mynewsapp
+package com.example.mynewsapp.activities
 
 import android.app.SearchManager
 import android.content.Context
@@ -8,6 +8,10 @@ import android.widget.AdapterView
 import android.widget.ListView
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.mynewsapp.R
+import com.example.mynewsapp.adapters.SearchListViewAdapter
+import com.example.mynewsapp.models.PreferenceModel
+import com.example.mynewsapp.services.FireStoreService
 import com.google.firebase.auth.FirebaseAuth
 import java.text.Normalizer
 import java.util.*
@@ -18,7 +22,7 @@ class SearchActivity: AppCompatActivity() {
     private var listView: ListView? = null
     private var searchResults = ArrayList<PreferenceModel>()
     private var adapter: SearchListViewAdapter? = null
-    private val fireStore =  FireStoreService()
+    private val fireStore = FireStoreService()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +34,10 @@ class SearchActivity: AppCompatActivity() {
         }
 
         listView = findViewById(R.id.search_list_view)
-        adapter = SearchListViewAdapter(this, searchResults)
+        adapter = SearchListViewAdapter(
+            this,
+            searchResults
+        )
         (listView as ListView).adapter = adapter
 
         (listView as ListView).onItemClickListener =
@@ -68,7 +75,7 @@ class SearchActivity: AppCompatActivity() {
             arrayOf("The Guardian", "Source"),
             arrayOf("Germany", "Country"),
             arrayOf("France", "Country"),
-            arrayOf("United State", "Country"),
+            arrayOf("United States", "Country"),
             arrayOf("Belgium", "Country")
         )
 
@@ -79,7 +86,12 @@ class SearchActivity: AppCompatActivity() {
             val normalisedItem = normalise(item[0])
 
             if (normalisedQuery.all { term -> normalisedItem.any { word -> word.contains(term) } }) {
-                searchResults.add(PreferenceModel(item[0], item[1]))
+                searchResults.add(
+                    PreferenceModel(
+                        item[0],
+                        item[1]
+                    )
+                )
             }
         }
 

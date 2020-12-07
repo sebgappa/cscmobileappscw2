@@ -3,7 +3,7 @@
     <string name="favorite">favorite</string>
     <string name="search">search</string>
     <string name="headlines">headlines</string>
-    <string name="account">account</string>
+    <string name="account">Account</string>
     <string name="countries">Countries</string>
     <string name="sources">Sources</string>
     <string name="topics">Topics</string>
@@ -11,4 +11,8 @@
     <string name="app_label">MyNewsApp</string>
     <string name="welcome">Welcome!</string>
     <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="logout">Logout</string>
+    <string name="country_not_found">Sorry this country can\'t be found. Showing general news</string>
+    <string name="topic_not_found">Sorry this topic can\'t be found. Showing general news</string>
+    <string name="source_not_found">Sorry this source can\'t be found. Showing general news</string>
 </resources>
