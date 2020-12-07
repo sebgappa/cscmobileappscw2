@@ -4,8 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.mynewsapp.fragments.NewsFragment
+import com.example.mynewsapp.models.PreferenceModel
 
-class TabAdapter(activity: AppCompatActivity, private val titles: ArrayList<String>): FragmentStateAdapter(activity) {
+class TabAdapter(activity: AppCompatActivity, private val titles: ArrayList<PreferenceModel>): FragmentStateAdapter(activity) {
 
     override fun createFragment(position: Int): Fragment {
         return NewsFragment(this.titles[position])

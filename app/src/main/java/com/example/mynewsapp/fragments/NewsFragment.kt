@@ -1,23 +1,26 @@
 package com.example.mynewsapp.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.dfl.newsapi.NewsApiRepository
-import com.dfl.newsapi.enums.Category
-import com.dfl.newsapi.enums.Country
 import com.dfl.newsapi.model.ArticlesDto
 import com.example.mynewsapp.R
 import com.example.mynewsapp.adapters.ArticleAdapter
 import com.example.mynewsapp.models.ArticleModel
+import com.example.mynewsapp.models.PreferenceModel
+import com.example.mynewsapp.services.NewsAPIService
+import com.google.android.material.snackbar.Snackbar
 import io.reactivex.schedulers.Schedulers
 
-class NewsFragment(private val contentType: String) : Fragment() {
+class NewsFragment(private val preferenceModel: PreferenceModel) : Fragment() {
+    private val newsAPIService = NewsAPIService()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,35 +28,64 @@ class NewsFragment(private val contentType: String) : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ) = inflater.inflate(R.layout.fragment_news, container, false)!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //fetchNewsArticles()
+        getNewsArticles()
     }
 
-    private fun fetchNewsArticles() {
-        val newsApiRepository = NewsApiRepository("f1010fbbbebb48aba026e6c2c47cc9e2")
+    private fun getNewsArticles() {
 
-        newsApiRepository.getTopHeadlines(
-            category = Category.GENERAL,
-            country = Country.GB,
-            pageSize = 20,
-            page = 1).subscribeOn(Schedulers.io())
-            .toFlowable().subscribe({ articles ->
-                populateArticles(articles)
-            }, { t -> Log.d("getTopHeadlines error", t.message.toString()) })
+        when (preferenceModel.type) {
+            "Country" -> newsAPIService.getNewsByCountry(preferenceModel.preferenceName!!)
+                    .subscribeOn(Schedulers.io())
+                    .toFlowable().subscribe({ articles ->
+                        populateArticles(articles)
+                    }, { error ->
+                        handleNewsAPIError(R.string.country_not_found.toString())
+                        Log.d("NewsFragment, getNewsByCountry() error",
+                                error.message.toString())
+                    })
+
+            "Source" -> newsAPIService.getNewsBySource(preferenceModel.preferenceName!!)
+                    .subscribeOn(Schedulers.io())
+                    .toFlowable().subscribe({ articles ->
+                        populateArticles(articles)
+                    }, { error ->
+                        handleNewsAPIError(R.string.source_not_found.toString())
+                        Log.d("NewsFragment, getNewsBySource() error",
+                                error.message.toString())
+                    })
+            "Topic" -> newsAPIService.getNewsByTopic(preferenceModel.preferenceName!!)
+                    .subscribeOn(Schedulers.io())
+                    .toFlowable().subscribe({ articles ->
+                        populateArticles(articles)
+                    }, { error ->
+                        handleNewsAPIError(R.string.topic_not_found.toString())
+                        Log.d("NewsFragment, getNewsByTopic() error",
+                                error.message.toString())
+                    })
+            else -> newsAPIService.getDefaultNews()
+                    .subscribeOn(Schedulers.io())
+                    .toFlowable().subscribe({ articles ->
+                        populateArticles(articles)
+                    }, { error ->
+                        Log.d("NewsFragment, getDefaultNews() error",
+                                error.message.toString())
+                    })
+        }
     }
 
     private fun populateArticles(articles: ArticlesDto) {
         activity?.runOnUiThread {
-            var articleList = ArrayList<ArticleModel>()
+            val articleList = ArrayList<ArticleModel>()
             for (article in articles.articles) {
-                var myArticle = ArticleModel()
+                val myArticle = ArticleModel()
                 myArticle.setTitle(article.title)
                 myArticle.setDescription(article.description)
                 myArticle.setPublishedDate(article.publishedAt)
@@ -77,5 +109,23 @@ class NewsFragment(private val contentType: String) : Fragment() {
                 recyclerView.adapter = articleCardAdapter
             }
         }
+    }
+
+    @SuppressLint("CheckResult")
+    private fun handleNewsAPIError(displayMessage: String) {
+        view?.let {
+            Snackbar.make(it,
+                    displayMessage,
+                    Snackbar.LENGTH_SHORT)
+                    .setBackgroundTint(ContextCompat.getColor(context!!, R.color.colorError))
+                    .show()
+        }
+
+        newsAPIService.getDefaultNews()
+                .subscribeOn(Schedulers.io())
+                .toFlowable().subscribe({ articles ->
+                    populateArticles(articles)
+                }, { error -> Log.d("NewsFragment, handleNewsAPIError() error",
+                        error.message.toString()) })
     }
 }

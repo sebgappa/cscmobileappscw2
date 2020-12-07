@@ -12,4 +12,7 @@
     <string name="welcome">Welcome!</string>
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="logout">Logout</string>
+    <string name="country_not_found">Sorry this country can\'t be found. Showing general news</string>
+    <string name="topic_not_found">Sorry this topic can\'t be found. Showing general news</string>
+    <string name="source_not_found">Sorry this source can\'t be found. Showing general news</string>
 </resources>

@@ -16,13 +16,13 @@ import com.google.firebase.auth.FirebaseAuth
 
 class FavoriteInfoActivity: AppCompatActivity() {
 
-    private val fireStore = FireStoreService()
+    private val fireStoreService = FireStoreService()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorite_info)
 
-        val result = fireStore.getPreferences(FirebaseAuth.getInstance().currentUser?.displayName.toString())
+        val result = fireStoreService.getPreferences(FirebaseAuth.getInstance().currentUser?.displayName.toString())
         result.addOnCompleteListener { task ->
             if(task.isSuccessful) {
                 var mapEntry = task.result!!.data

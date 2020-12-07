@@ -2,6 +2,7 @@ package com.example.mynewsapp.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.preference.Preference
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -11,6 +12,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.viewpager2.widget.ViewPager2
 import com.example.mynewsapp.R
 import com.example.mynewsapp.adapters.TabAdapter
+import com.example.mynewsapp.models.PreferenceModel
 import com.example.mynewsapp.services.FireStoreService
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -30,7 +32,7 @@ class MyNewsPageActivity : AppCompatActivity() {
         val tabLayout = findViewById<TabLayout>(R.id.tab_layout)
         val viewPager = findViewById<ViewPager2>(R.id.view_pager)
 
-        var preferredNewsTitles = ArrayList<String>()
+        var preferredNewsTitles = ArrayList<PreferenceModel>()
         val result =
             fireStore.getPreferences(FirebaseAuth.getInstance().currentUser?.displayName.toString())
         result.addOnCompleteListener { task ->
@@ -38,7 +40,8 @@ class MyNewsPageActivity : AppCompatActivity() {
                 var mapEntry = task.result!!.data
                 if (mapEntry != null) {
                     for (item in mapEntry) {
-                        preferredNewsTitles.add(item.key)
+                        var preferenceModel = PreferenceModel(item.key, item.value.toString())
+                        preferredNewsTitles.add(preferenceModel)
                     }
                     setTabTitles(viewPager, tabLayout, preferredNewsTitles)
                 }
@@ -48,7 +51,7 @@ class MyNewsPageActivity : AppCompatActivity() {
         }
     }
 
-    private fun setTabTitles(viewPager: ViewPager2, tabLayout: TabLayout, preferredNewsTitles: ArrayList<String>) {
+    private fun setTabTitles(viewPager: ViewPager2, tabLayout: TabLayout, preferredNewsTitles: ArrayList<PreferenceModel>) {
         this@MyNewsPageActivity!!.runOnUiThread {
             viewPager.adapter =
                 TabAdapter(this, preferredNewsTitles)
@@ -57,7 +60,7 @@ class MyNewsPageActivity : AppCompatActivity() {
                 viewPager,
                 TabLayoutMediator.TabConfigurationStrategy { tab, position ->
                     for (i in preferredNewsTitles.indices) {
-                        if (position == i) tab.text = preferredNewsTitles[i]
+                        if (position == i) tab.text = preferredNewsTitles[i].preferenceName
                     }
                 }).attach()
         }
