@@ -42,7 +42,7 @@ class NewsFragment(private val preferenceModel: PreferenceModel) : Fragment() {
     private fun getNewsArticles() {
 
         when (preferenceModel.type) {
-            "Country" -> newsAPIService.getNewsByCountry(preferenceModel.preferenceName!!)
+            "Country" -> newsAPIService.getNewsByCountry(preferenceModel.preferenceName!!, null)
                 .subscribeOn(Schedulers.io())
                 .toFlowable().subscribe({ articles ->
                     populateArticles(articles)
@@ -54,7 +54,7 @@ class NewsFragment(private val preferenceModel: PreferenceModel) : Fragment() {
                     )
                 })
 
-            "Source" -> newsAPIService.getNewsBySource(preferenceModel.preferenceName!!)
+            "Source" -> newsAPIService.getNewsBySource(preferenceModel.preferenceName!!, null)
                 .subscribeOn(Schedulers.io())
                 .toFlowable().subscribe({ articles ->
                     populateArticles(articles)
@@ -65,7 +65,7 @@ class NewsFragment(private val preferenceModel: PreferenceModel) : Fragment() {
                         error.message.toString()
                     )
                 })
-            "Topic" -> newsAPIService.getNewsByTopic(preferenceModel.preferenceName!!)
+            "Topic" -> newsAPIService.getNewsByTopic(preferenceModel.preferenceName!!, null)
                 .subscribeOn(Schedulers.io())
                 .toFlowable().subscribe({ articles ->
                     populateArticles(articles)
@@ -111,6 +111,7 @@ class NewsFragment(private val preferenceModel: PreferenceModel) : Fragment() {
                 myArticle.setUrlToImage(article.urlToImage)
                 myArticle.setUrl(article.url)
                 myArticle.setPublisher(article.source.name)
+                myArticle.setPreferenceModel(preferenceModel.preferenceName!!, preferenceModel.type!!)
                 articleList.add(myArticle)
             }
 

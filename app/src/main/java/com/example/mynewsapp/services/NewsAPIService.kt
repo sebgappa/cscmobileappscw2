@@ -9,6 +9,7 @@ import com.dfl.newsapi.model.ArticlesDto
 import com.example.mynewsapp.R
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.Single
+import java.net.URLEncoder
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -27,43 +28,51 @@ class NewsAPIService {
 
     fun getNewsByQuery(query: String): Single<ArticlesDto> {
         return newsApiRepository.getEverything(
-            q = query,
+            q = URLEncoder.encode(query, "utf-8"),
             pageSize = defaultPageSize,
-            page = defaultPage)
+            page = defaultPage
+        )
     }
 
-    fun getNewsBySource(source: String): Single<ArticlesDto> {
+    fun getNewsBySource(source: String, query: String?): Single<ArticlesDto> {
         return newsApiRepository.getTopHeadlines(
-                sources = normaliseSource(source),
-                pageSize = defaultPageSize,
-                page = defaultPage)
+            q = query,
+            sources = normaliseSource(source),
+            pageSize = defaultPageSize,
+            page = defaultPage
+        )
     }
 
-    fun getNewsByCountry(country: String): Single<ArticlesDto> {
-        if(countries[country.toLowerCase()] != null) {
+    fun getNewsByCountry(country: String, query: String?): Single<ArticlesDto> {
+        if (countries[country.toLowerCase()] != null) {
             return newsApiRepository.getTopHeadlines(
-                    country = Country.valueOf(countries[country.toLowerCase()]!!),
-                    pageSize = defaultPageSize,
-                    page = defaultPage)
+                q = query,
+                country = Country.valueOf(countries[country.toLowerCase()]!!),
+                pageSize = defaultPageSize,
+                page = defaultPage
+            )
         }
 
         return Single.error(Resources.NotFoundException())
     }
 
-    fun getNewsByTopic(topic: String): Single<ArticlesDto> {
+    fun getNewsByTopic(topic: String, query: String?): Single<ArticlesDto> {
         return newsApiRepository.getTopHeadlines(
-                category = Category.valueOf(topic.toUpperCase()),
-                country = Country.GB,
-                pageSize = defaultPageSize,
-                page = defaultPage)
+            q = query,
+            category = Category.valueOf(topic.toUpperCase()),
+            country = Country.GB,
+            pageSize = defaultPageSize,
+            page = defaultPage
+        )
     }
 
     fun getDefaultNews(): Single<ArticlesDto> {
         return newsApiRepository.getTopHeadlines(
-                category = Category.GENERAL,
-                country = Country.GB,
-                pageSize = defaultPageSize,
-                page = defaultPage)
+            category = Category.GENERAL,
+            country = Country.GB,
+            pageSize = defaultPageSize,
+            page = defaultPage
+        )
     }
 
     private fun normaliseSource(source: String): String {

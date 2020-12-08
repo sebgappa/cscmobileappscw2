@@ -1,6 +1,5 @@
 package com.example.mynewsapp.adapters
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -9,25 +8,23 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mynewsapp.R
 import com.example.mynewsapp.activities.DisplayArticleActivity
 import com.example.mynewsapp.models.ArticleModel
-import com.example.mynewsapp.services.FireStoreService
-import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 
-
-class ArticleAdapter(
+class SavedArticleAdapter(
     private var articleList: MutableList<ArticleModel>,
     private val currentContext: Context
-) : RecyclerView.Adapter<ArticleAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<SavedArticleAdapter.ViewHolder>() {
 
     private val placeHolderImage =
         "https://pbs.twimg.com/profile_images/467502291415617536/SP8_ylk9.png"
-    private val fireStore = FireStoreService()
+
+    fun getArticleList(): MutableList<ArticleModel> {
+        return this.articleList
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -62,47 +59,6 @@ class ArticleAdapter(
                 ).apply {
                     putExtra("url", article.url())
                 })
-        }
-        articleViewHolder.articleCard.setOnLongClickListener {
-
-            saveArticleToFireBase(article)
-
-            return@setOnLongClickListener true
-        }
-    }
-
-    private fun saveArticleToFireBase(article: ArticleModel) {
-        when (article.getPreferenceModel()!!.type) {
-            "Source" -> fireStore.saveArticleBySource(
-                FirebaseAuth.getInstance().currentUser?.displayName.toString(),
-                hashMapOf(article.articleTitle() to article.getPreferenceModel()!!.preferenceName!!)
-            )
-            "Topic" -> fireStore.saveArticleByTopic(
-                FirebaseAuth.getInstance().currentUser?.displayName.toString(),
-                hashMapOf(article.articleTitle() to article.getPreferenceModel()!!.preferenceName!!)
-            )
-            "Country" -> fireStore.saveArticleByCountry(
-                FirebaseAuth.getInstance().currentUser?.displayName.toString(),
-                hashMapOf(article.articleTitle() to article.getPreferenceModel()!!.preferenceName!!)
-            )
-        }
-
-        val parentView: View =
-            (currentContext as Activity).findViewById<View>(android.R.id.content).rootView
-
-        parentView.let {
-            Snackbar.make(
-                parentView,
-                "Article saved!",
-                Snackbar.LENGTH_SHORT
-            )
-                .setBackgroundTint(
-                    ContextCompat.getColor(
-                        this.currentContext,
-                        R.color.colorSecondary
-                    )
-                )
-                .show()
         }
     }
 

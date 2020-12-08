@@ -16,4 +16,5 @@
     <string name="country_not_found">Sorry this country can\'t be found. Showing general news</string>
     <string name="topic_not_found">Sorry this topic can\'t be found. Showing general news</string>
     <string name="source_not_found">Sorry this source can\'t be found. Showing general news</string>
+    <string name="saved">Saved articles</string>
 </resources>

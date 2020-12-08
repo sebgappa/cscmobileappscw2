@@ -8,6 +8,7 @@ class ArticleModel
     private var publishedDate: String? = null
     private var urlToImage: String? = null
     private var url: String? = null
+    private var preferenceModel: PreferenceModel? = null
 
     fun articleTitle(): String {
         return this.title.toString()
@@ -55,5 +56,13 @@ class ArticleModel
 
     fun setUrl(url: String?) {
         this.url = url
+    }
+
+    fun setPreferenceModel(preferenceName: String, preferenceType: String) {
+        this.preferenceModel = PreferenceModel(preferenceName, preferenceType)
+    }
+
+    fun getPreferenceModel(): PreferenceModel? {
+        return this.preferenceModel
     }
 }
