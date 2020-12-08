@@ -53,4 +53,7 @@ dependencies {
     implementation 'com.github.dfloureiro:news-api-kotlin:v2.1'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.8'
     implementation 'com.squareup.picasso:picasso:2.71828'
+
+    //Google Play Services
+    implementation 'com.google.android.gms:play-services-location:17.1.0'
 }

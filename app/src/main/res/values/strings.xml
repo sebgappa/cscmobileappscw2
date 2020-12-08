@@ -3,6 +3,7 @@
     <string name="favorite">favorite</string>
     <string name="search">search</string>
     <string name="headlines">headlines</string>
+    <string name="local">Local</string>
     <string name="account">Account</string>
     <string name="countries">Countries</string>
     <string name="sources">Sources</string>

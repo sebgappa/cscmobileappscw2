@@ -15,6 +15,12 @@
         app:showAsAction="always" />
 
     <item
+        android:id="@+id/local"
+        android:icon="@drawable/local_icon"
+        android:title="@string/local"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/account"
         android:icon="@drawable/settings_24px"
         android:title="@string/account"
