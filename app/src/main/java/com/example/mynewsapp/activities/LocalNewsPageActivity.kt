@@ -1,14 +1,12 @@
 package com.example.mynewsapp.activities
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
-import android.preference.Preference
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
@@ -17,7 +15,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.example.mynewsapp.R
-import com.example.mynewsapp.adapters.TabAdapter
+import com.example.mynewsapp.adapters.ArticlesTabAdapter
 import com.example.mynewsapp.models.PreferenceModel
 import com.google.android.gms.location.*
 import com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
@@ -71,6 +69,9 @@ class LocalNewsPageActivity : AppCompatActivity() {
             R.id.headlines -> {
                 startActivity(Intent(this, MyNewsPageActivity::class.java))
             }
+            R.id.saved -> {
+                startActivity(Intent(this, SavedArticlesActivity::class.java))
+            }
             R.id.logout -> {
                 FirebaseAuth.getInstance().signOut()
                 startActivity(Intent(this, MainActivity::class.java))
@@ -85,7 +86,7 @@ class LocalNewsPageActivity : AppCompatActivity() {
 
         this@LocalNewsPageActivity.runOnUiThread {
             viewPager.adapter =
-                    TabAdapter(this, preferredNewsTitles)
+                    ArticlesTabAdapter(this, preferredNewsTitles)
             TabLayoutMediator(
                     tabLayout,
                     viewPager,
@@ -109,8 +110,8 @@ class LocalNewsPageActivity : AppCompatActivity() {
                     if (locationResult != null) {
                         for (location in locationResult.locations) {
                             fusedLocationClient.lastLocation
-                                    .addOnSuccessListener { location: Location? ->
-                                        if (location != null) {
+                                    .addOnSuccessListener { lastLocation: Location? ->
+                                        if (lastLocation != null) {
                                             val address = resolveAddressFromLocation(location.longitude, location.latitude)
                                             setTabTitles(arrayListOf(
                                                     PreferenceModel(address?.get(0), "Country"),

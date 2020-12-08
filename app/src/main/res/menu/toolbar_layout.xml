@@ -21,6 +21,12 @@
         app:showAsAction="always" />
 
     <item
+        android:id="@+id/saved"
+        android:icon="@drawable/save_icon"
+        android:title="@string/saved"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/account"
         android:icon="@drawable/settings_24px"
         android:title="@string/account"
