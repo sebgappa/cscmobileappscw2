@@ -25,6 +25,13 @@ class NewsAPIService {
         }
     }
 
+    fun getNewsByQuery(query: String): Single<ArticlesDto> {
+        return newsApiRepository.getEverything(
+            q = query,
+            pageSize = defaultPageSize,
+            page = defaultPage)
+    }
+
     fun getNewsBySource(source: String): Single<ArticlesDto> {
         return newsApiRepository.getTopHeadlines(
                 sources = normaliseSource(source),
@@ -33,7 +40,6 @@ class NewsAPIService {
     }
 
     fun getNewsByCountry(country: String): Single<ArticlesDto> {
-
         if(countries[country.toLowerCase()] != null) {
             return newsApiRepository.getTopHeadlines(
                     country = Country.valueOf(countries[country.toLowerCase()]!!),
