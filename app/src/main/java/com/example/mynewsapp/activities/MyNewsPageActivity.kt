@@ -77,6 +77,9 @@ class MyNewsPageActivity : AppCompatActivity() {
             R.id.favorite -> {
                 startActivity(Intent(this, FavoriteInfoActivity::class.java))
             }
+            R.id.local -> {
+                startActivity(Intent(this, LocalNewsPageActivity::class.java))
+            }
             R.id.logout -> {
                 FirebaseAuth.getInstance().signOut()
                 startActivity(Intent(this, MainActivity::class.java))
