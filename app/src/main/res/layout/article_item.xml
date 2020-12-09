@@ -29,14 +29,6 @@
                     android:layout_height="260dp"
                     android:layout_gravity="center"
                     tools:srcCompat="@tools:sample/backgrounds/scenic" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/article__publisher_image"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_margin="15dp"
-                    android:layout_gravity="bottom"
-                    tools:srcCompat="@tools:sample/backgrounds/scenic" />
             </FrameLayout>
 
             <GridLayout
@@ -49,9 +41,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:textSize="10sp"
-                    android:text="PLACEHOLDER" />
+                    android:layout_marginBottom="5dp"
+                    android:textSize="15sp"
+                    android:text="@string/placeholder" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/article_published"
@@ -59,9 +51,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:textSize="10sp"
-                    android:text="PLACEHOLDER" />
+                    android:layout_marginBottom="5dp"
+                    android:textSize="15sp"
+                    android:text="@string/placeholder" />
 
             </GridLayout>
 
@@ -73,7 +65,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="10dp"
                 android:textSize="25sp"
-                android:text="PLACEHOLDER" />
+                android:text="@string/placeholder" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/article_description"
@@ -82,8 +74,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="10dp"
-                android:textSize="12sp"
-                android:text="PLACEHOLDER" />
+                android:textSize="15sp"
+                android:text="@string/placeholder" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
