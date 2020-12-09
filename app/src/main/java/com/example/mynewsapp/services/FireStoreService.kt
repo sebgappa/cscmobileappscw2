@@ -76,14 +76,14 @@ class FireStoreService {
      */
     fun saveArticleBySource(collectionName: String, data: MutableMap<String, Any>) {
         db.collection(collectionName)
-            .document("Articles")
-            .collection("Source")
-            .document("Saved")
-            .set(data, SetOptions.merge())
-            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully written!") }
-            .addOnFailureListener { e ->
-                Log.w(TAG, "Error adding document", e)
-            }
+                .document("Articles")
+                .collection("Source")
+                .document("Saved")
+                .set(data, SetOptions.merge())
+                .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully written!") }
+                .addOnFailureListener { e ->
+                    Log.w(TAG, "Error adding document", e)
+                }
     }
 
     /**
@@ -91,14 +91,14 @@ class FireStoreService {
      */
     fun saveArticleByCountry(collectionName: String, data: MutableMap<String, Any>) {
         db.collection(collectionName)
-            .document("Articles")
-            .collection("Country")
-            .document("Saved")
-            .set(data, SetOptions.merge())
-            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully written!") }
-            .addOnFailureListener { e ->
-                Log.w(TAG, "Error adding document", e)
-            }
+                .document("Articles")
+                .collection("Country")
+                .document("Saved")
+                .set(data, SetOptions.merge())
+                .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully written!") }
+                .addOnFailureListener { e ->
+                    Log.w(TAG, "Error adding document", e)
+                }
     }
 
     /**
@@ -106,14 +106,14 @@ class FireStoreService {
      */
     fun saveArticleByTopic(collectionName: String, data: MutableMap<String, Any>) {
         db.collection(collectionName)
-            .document("Articles")
-            .collection("Topic")
-            .document("Saved")
-            .set(data, SetOptions.merge())
-            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully written!") }
-            .addOnFailureListener { e ->
-                Log.w(TAG, "Error adding document", e)
-            }
+                .document("Articles")
+                .collection("Topic")
+                .document("Saved")
+                .set(data, SetOptions.merge())
+                .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully written!") }
+                .addOnFailureListener { e ->
+                    Log.w(TAG, "Error adding document", e)
+                }
     }
 
     /**
@@ -121,20 +121,20 @@ class FireStoreService {
      */
     fun getArticlesBySource(collectionName: String): Task<DocumentSnapshot> {
         return db.collection(collectionName)
-            .document("Articles")
-            .collection("Source")
-            .document("Saved")
-            .get()
-            .addOnSuccessListener { document ->
-                if (document != null) {
-                    Log.d(TAG, "DocumentSnapshot data: ${document.data}")
-                } else {
-                    Log.d(TAG, "No such document")
+                .document("Articles")
+                .collection("Source")
+                .document("Saved")
+                .get()
+                .addOnSuccessListener { document ->
+                    if (document != null) {
+                        Log.d(TAG, "DocumentSnapshot data: ${document.data}")
+                    } else {
+                        Log.d(TAG, "No such document")
+                    }
                 }
-            }
-            .addOnFailureListener { exception ->
-                Log.d(TAG, "get failed with ", exception)
-            }
+                .addOnFailureListener { exception ->
+                    Log.d(TAG, "get failed with ", exception)
+                }
     }
 
     /**
@@ -142,20 +142,20 @@ class FireStoreService {
      */
     fun getArticlesByCountry(collectionName: String): Task<DocumentSnapshot> {
         return db.collection(collectionName)
-            .document("Articles")
-            .collection("Country")
-            .document("Saved")
-            .get()
-            .addOnSuccessListener { document ->
-                if (document != null) {
-                    Log.d(TAG, "DocumentSnapshot data: ${document.data}")
-                } else {
-                    Log.d(TAG, "No such document")
+                .document("Articles")
+                .collection("Country")
+                .document("Saved")
+                .get()
+                .addOnSuccessListener { document ->
+                    if (document != null) {
+                        Log.d(TAG, "DocumentSnapshot data: ${document.data}")
+                    } else {
+                        Log.d(TAG, "No such document")
+                    }
                 }
-            }
-            .addOnFailureListener { exception ->
-                Log.d(TAG, "get failed with ", exception)
-            }
+                .addOnFailureListener { exception ->
+                    Log.d(TAG, "get failed with ", exception)
+                }
     }
 
     /**
@@ -163,19 +163,19 @@ class FireStoreService {
      */
     fun getArticlesByTopic(collectionName: String): Task<DocumentSnapshot> {
         return db.collection(collectionName)
-            .document("Articles")
-            .collection("Topic")
-            .document("Saved")
-            .get()
-            .addOnSuccessListener { document ->
-                if (document != null) {
-                    Log.d(TAG, "DocumentSnapshot data: ${document.data}")
-                } else {
-                    Log.d(TAG, "No such document")
+                .document("Articles")
+                .collection("Topic")
+                .document("Saved")
+                .get()
+                .addOnSuccessListener { document ->
+                    if (document != null) {
+                        Log.d(TAG, "DocumentSnapshot data: ${document.data}")
+                    } else {
+                        Log.d(TAG, "No such document")
+                    }
                 }
-            }
-            .addOnFailureListener { exception ->
-                Log.d(TAG, "get failed with ", exception)
-            }
+                .addOnFailureListener { exception ->
+                    Log.d(TAG, "get failed with ", exception)
+                }
     }
 }

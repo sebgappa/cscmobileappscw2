@@ -12,7 +12,7 @@ import com.example.mynewsapp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 
-class AccountActivity: AppCompatActivity() {
+class AccountActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

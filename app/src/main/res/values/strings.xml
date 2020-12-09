@@ -21,4 +21,5 @@
     <string name="account_email_address">Email address:</string>
     <string name="phone_number">Phone number:</string>
     <string name="placeholder">PLACEHOLDER</string>
+    <string name="add_preference_button">Add</string>
 </resources>

@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseAuth
  * This activity class allows users to manage their preferences.
  * @author Sebastian Gappa
  */
-class FavoriteInfoActivity: AppCompatActivity() {
+class FavoriteInfoActivity : AppCompatActivity() {
 
     private val fireStoreService = FireStoreService()
 
@@ -35,9 +35,9 @@ class FavoriteInfoActivity: AppCompatActivity() {
 
         val result = fireStoreService.getPreferences(FirebaseAuth.getInstance().currentUser?.displayName.toString())
         result.addOnCompleteListener { task ->
-            if(task.isSuccessful) {
+            if (task.isSuccessful) {
                 val mapEntry = task.result!!.data
-                if(mapEntry != null) {
+                if (mapEntry != null) {
                     populatePreferencesLists(mapEntry)
                 }
             } else {
@@ -100,8 +100,8 @@ class FavoriteInfoActivity: AppCompatActivity() {
         val sourcesArray = ArrayList<String>()
         val countriesArray = ArrayList<String>()
 
-        for(item in mapEntry) {
-            when(item.value) {
+        for (item in mapEntry) {
+            when (item.value) {
                 "Source" -> sourcesArray.add(item.key)
                 "Country" -> countriesArray.add(item.key)
                 "Topic" -> topicsArray.add(item.key)
@@ -110,11 +110,11 @@ class FavoriteInfoActivity: AppCompatActivity() {
 
         this@FavoriteInfoActivity.runOnUiThread {
             val topicsAdapter = ArrayAdapter<String>(this,
-                R.layout.preference_list_item, topicsArray)
+                    R.layout.preference_list_item, topicsArray)
             val sourcesAdapter = ArrayAdapter<String>(this,
-                R.layout.preference_list_item, sourcesArray)
+                    R.layout.preference_list_item, sourcesArray)
             val countriesAdapter = ArrayAdapter<String>(this,
-                R.layout.preference_list_item, countriesArray)
+                    R.layout.preference_list_item, countriesArray)
 
             val topicsListView = findViewById<ListView>(R.id.topics_list)
             val sourcesListView = findViewById<ListView>(R.id.sources_list)

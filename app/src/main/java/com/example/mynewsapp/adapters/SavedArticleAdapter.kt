@@ -20,12 +20,12 @@ import com.squareup.picasso.Picasso
  * @author
  */
 class SavedArticleAdapter(
-    private var articleList: MutableList<ArticleModel>,
-    private val currentContext: Context
+        private var articleList: MutableList<ArticleModel>,
+        private val currentContext: Context
 ) : RecyclerView.Adapter<SavedArticleAdapter.ViewHolder>() {
 
     private val placeHolderImage =
-        "https://pbs.twimg.com/profile_images/467502291415617536/SP8_ylk9.png"
+            "https://pbs.twimg.com/profile_images/467502291415617536/SP8_ylk9.png"
 
     fun getArticleList(): MutableList<ArticleModel> {
         return this.articleList
@@ -42,13 +42,13 @@ class SavedArticleAdapter(
     }
 
     override fun onBindViewHolder(articleViewHolder: ViewHolder, position: Int) {
-        var article: ArticleModel = articleList[position]
+        val article: ArticleModel = articleList[position]
         setPropertiesForArticleViewHolder(articleViewHolder, article)
     }
 
     private fun setPropertiesForArticleViewHolder(
-        articleViewHolder: ViewHolder,
-        article: ArticleModel
+            articleViewHolder: ViewHolder,
+            article: ArticleModel
     ) {
         checkForUrlToImage(article, articleViewHolder)
         articleViewHolder.articleTitle.text = article.articleTitle()
@@ -58,28 +58,28 @@ class SavedArticleAdapter(
 
         articleViewHolder.articleCard.setOnClickListener {
             currentContext.startActivity(
-                Intent(
-                    currentContext,
-                    DisplayArticleActivity::class.java
-                ).apply {
-                    putExtra("url", article.url())
-                })
+                    Intent(
+                            currentContext,
+                            DisplayArticleActivity::class.java
+                    ).apply {
+                        putExtra("url", article.url())
+                    })
         }
     }
 
     private fun checkForUrlToImage(article: ArticleModel, articleViewHolder: ViewHolder) {
         if (article.articleImage().isEmpty()) {
             Picasso.get()
-                .load(placeHolderImage)
-                .centerCrop()
-                .fit()
-                .into(articleViewHolder.articleImage)
+                    .load(placeHolderImage)
+                    .centerCrop()
+                    .fit()
+                    .into(articleViewHolder.articleImage)
         } else {
             Picasso.get()
-                .load(article.articleImage())
-                .centerCrop()
-                .fit()
-                .into(articleViewHolder.articleImage)
+                    .load(article.articleImage())
+                    .centerCrop()
+                    .fit()
+                    .into(articleViewHolder.articleImage)
         }
     }
 

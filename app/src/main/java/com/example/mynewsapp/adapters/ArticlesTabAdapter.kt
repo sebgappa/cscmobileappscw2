@@ -11,7 +11,7 @@ import com.example.mynewsapp.models.PreferenceModel
  * news articles.
  * @author Sebastian Gappa
  */
-class ArticlesTabAdapter(activity: AppCompatActivity, private val titles: ArrayList<PreferenceModel>): FragmentStateAdapter(activity) {
+class ArticlesTabAdapter(activity: AppCompatActivity, private val titles: ArrayList<PreferenceModel>) : FragmentStateAdapter(activity) {
 
     override fun createFragment(position: Int): Fragment {
         return NewsFragment(this.titles[position])

@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         val user = mAuth.currentUser
 
         Handler(Looper.getMainLooper()).postDelayed({
-            if(user != null) {
+            if (user != null) {
                 startActivity(Intent(this, MyNewsPageActivity::class.java))
             } else {
                 startActivity(Intent(this, SignInActivity::class.java))

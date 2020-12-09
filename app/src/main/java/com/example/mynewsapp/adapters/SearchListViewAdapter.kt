@@ -15,7 +15,7 @@ import com.example.mynewsapp.models.PreferenceModel
  * Displays the search results in a listView using custom PreferenceModel.
  * @author Sebastian Gappa
  */
-class SearchListViewAdapter(private val activity: Activity, searchResults: List<PreferenceModel>): BaseAdapter() {
+class SearchListViewAdapter(private val activity: Activity, searchResults: List<PreferenceModel>) : BaseAdapter() {
 
     private var searchResults = ArrayList<PreferenceModel>()
 
@@ -41,7 +41,7 @@ class SearchListViewAdapter(private val activity: Activity, searchResults: List<
         val inflater = activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         convertView = inflater.inflate(R.layout.search_list_item, null)
         val label = convertView.findViewById<TextView>(R.id.label)
-        label.text = searchResults[i].preferenceName + " " + "("+searchResults[i].type+")"
+        label.text = searchResults[i].preferenceName + " " + "(" + searchResults[i].type + ")"
         return convertView
     }
 }

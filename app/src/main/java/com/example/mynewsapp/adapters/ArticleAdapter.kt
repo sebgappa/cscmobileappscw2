@@ -26,12 +26,12 @@ import com.squareup.picasso.Picasso
  * @author
  */
 class ArticleAdapter(
-    private var articleList: MutableList<ArticleModel>,
-    private val currentContext: Context
+        private var articleList: MutableList<ArticleModel>,
+        private val currentContext: Context
 ) : RecyclerView.Adapter<ArticleAdapter.ViewHolder>() {
 
     private val placeHolderImage =
-        "https://pbs.twimg.com/profile_images/467502291415617536/SP8_ylk9.png"
+            "https://pbs.twimg.com/profile_images/467502291415617536/SP8_ylk9.png"
     private val fireStore = FireStoreService()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -45,7 +45,7 @@ class ArticleAdapter(
     }
 
     override fun onBindViewHolder(articleViewHolder: ViewHolder, position: Int) {
-        var article: ArticleModel = articleList[position]
+        val article: ArticleModel = articleList[position]
         setPropertiesForArticleViewHolder(articleViewHolder, article)
     }
 
@@ -54,8 +54,8 @@ class ArticleAdapter(
      * article has been pressed to load the contents or long pressed to save.
      */
     private fun setPropertiesForArticleViewHolder(
-        articleViewHolder: ViewHolder,
-        article: ArticleModel
+            articleViewHolder: ViewHolder,
+            article: ArticleModel
     ) {
         checkForUrlToImage(article, articleViewHolder)
         articleViewHolder.articleTitle.text = article.articleTitle()
@@ -65,12 +65,12 @@ class ArticleAdapter(
 
         articleViewHolder.articleCard.setOnClickListener {
             currentContext.startActivity(
-                Intent(
-                    currentContext,
-                    DisplayArticleActivity::class.java
-                ).apply {
-                    putExtra("url", article.url())
-                })
+                    Intent(
+                            currentContext,
+                            DisplayArticleActivity::class.java
+                    ).apply {
+                        putExtra("url", article.url())
+                    })
         }
         articleViewHolder.articleCard.setOnLongClickListener {
 
@@ -87,36 +87,36 @@ class ArticleAdapter(
     private fun saveArticleToFireBase(article: ArticleModel) {
         when (article.getPreferenceModel()!!.type) {
             "Source" -> fireStore.saveArticleBySource(
-                FirebaseAuth.getInstance().currentUser?.displayName.toString(),
-                hashMapOf(article.articleTitle() to article.getPreferenceModel()!!.preferenceName!!)
+                    FirebaseAuth.getInstance().currentUser?.displayName.toString(),
+                    hashMapOf(article.articleTitle() to article.getPreferenceModel()!!.preferenceName!!)
             )
             "Topic" -> fireStore.saveArticleByTopic(
-                FirebaseAuth.getInstance().currentUser?.displayName.toString(),
-                hashMapOf(article.articleTitle() to article.getPreferenceModel()!!.preferenceName!!)
+                    FirebaseAuth.getInstance().currentUser?.displayName.toString(),
+                    hashMapOf(article.articleTitle() to article.getPreferenceModel()!!.preferenceName!!)
             )
             "Country" -> fireStore.saveArticleByCountry(
-                FirebaseAuth.getInstance().currentUser?.displayName.toString(),
-                hashMapOf(article.articleTitle() to article.getPreferenceModel()!!.preferenceName!!)
+                    FirebaseAuth.getInstance().currentUser?.displayName.toString(),
+                    hashMapOf(article.articleTitle() to article.getPreferenceModel()!!.preferenceName!!)
             )
         }
 
         // Display success message
         val parentView: View =
-            (currentContext as Activity).findViewById<View>(android.R.id.content).rootView
+                (currentContext as Activity).findViewById<View>(android.R.id.content).rootView
 
         parentView.let {
             Snackbar.make(
-                parentView,
-                "Article saved!",
-                Snackbar.LENGTH_SHORT
+                    parentView,
+                    "Article saved!",
+                    Snackbar.LENGTH_SHORT
             )
-                .setBackgroundTint(
-                    ContextCompat.getColor(
-                        this.currentContext,
-                        R.color.colorSecondary
+                    .setBackgroundTint(
+                            ContextCompat.getColor(
+                                    this.currentContext,
+                                    R.color.colorSecondary
+                            )
                     )
-                )
-                .show()
+                    .show()
         }
     }
 
@@ -128,16 +128,16 @@ class ArticleAdapter(
 
         if (article.articleImage().isEmpty()) {
             Picasso.get()
-                .load(placeHolderImage)
-                .centerCrop()
-                .fit()
-                .into(articleViewHolder.articleImage)
+                    .load(placeHolderImage)
+                    .centerCrop()
+                    .fit()
+                    .into(articleViewHolder.articleImage)
         } else {
             Picasso.get()
-                .load(article.articleImage())
-                .centerCrop()
-                .fit()
-                .into(articleViewHolder.articleImage)
+                    .load(article.articleImage())
+                    .centerCrop()
+                    .fit()
+                    .into(articleViewHolder.articleImage)
         }
     }
 

@@ -40,7 +40,7 @@ class MyNewsPageActivity : AppCompatActivity() {
 
         val preferredNewsTitles = ArrayList<PreferenceModel>()
         val result =
-            fireStore.getPreferences(FirebaseAuth.getInstance().currentUser?.displayName.toString())
+                fireStore.getPreferences(FirebaseAuth.getInstance().currentUser?.displayName.toString())
         result.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val mapEntry = task.result!!.data
@@ -99,15 +99,15 @@ class MyNewsPageActivity : AppCompatActivity() {
     private fun setTabTitles(viewPager: ViewPager2, tabLayout: TabLayout, preferredNewsTitles: ArrayList<PreferenceModel>) {
         this@MyNewsPageActivity.runOnUiThread {
             viewPager.adapter =
-                ArticlesTabAdapter(this, preferredNewsTitles)
+                    ArticlesTabAdapter(this, preferredNewsTitles)
             TabLayoutMediator(
-                tabLayout,
-                viewPager,
-                TabLayoutMediator.TabConfigurationStrategy { tab, position ->
-                    for (i in preferredNewsTitles.indices) {
-                        if (position == i) tab.text = preferredNewsTitles[i].preferenceName
-                    }
-                }).attach()
+                    tabLayout,
+                    viewPager,
+                    TabLayoutMediator.TabConfigurationStrategy { tab, position ->
+                        for (i in preferredNewsTitles.indices) {
+                            if (position == i) tab.text = preferredNewsTitles[i].preferenceName
+                        }
+                    }).attach()
         }
     }
 }

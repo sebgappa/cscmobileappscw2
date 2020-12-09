@@ -1,21 +1,16 @@
 package com.example.mynewsapp.activities
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import com.example.mynewsapp.R
-import com.google.firebase.auth.FirebaseAuth
 
 /**
  * This activity class is used to load and display full articles from the web.
  * @author Sebastian Gappa
  */
-class DisplayArticleActivity: AppCompatActivity() {
+class DisplayArticleActivity : AppCompatActivity() {
 
     /**
      * When the activity is created we launch the webView client with the url

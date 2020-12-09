@@ -4,8 +4,7 @@ package com.example.mynewsapp.models
  * All the relevant information we display for an article.
  * @author Sebastian Gappa
  */
-class ArticleModel
-{
+class ArticleModel {
     private var title: String? = null
     private var description: String? = null
     private var publisher: String? = null

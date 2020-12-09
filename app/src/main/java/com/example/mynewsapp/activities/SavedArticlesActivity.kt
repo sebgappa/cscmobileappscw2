@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dfl.newsapi.model.ArticleDto
 import com.example.mynewsapp.R
-import com.example.mynewsapp.adapters.ArticleAdapter
 import com.example.mynewsapp.adapters.SavedArticleAdapter
 import com.example.mynewsapp.models.ArticleModel
 import com.example.mynewsapp.services.FireStoreService
@@ -30,8 +29,8 @@ class SavedArticlesActivity : AppCompatActivity() {
     private val fireStore = FireStoreService()
     private val newsAPIService = NewsAPIService()
     private val articleCardAdapter = SavedArticleAdapter(
-        ArrayList(),
-        this
+            ArrayList(),
+            this
     )
 
     /**
@@ -79,6 +78,9 @@ class SavedArticlesActivity : AppCompatActivity() {
             }
             R.id.account -> {
                 startActivity(Intent(this, AccountActivity::class.java))
+            }
+            R.id.saved -> {
+                startActivity(Intent(this, SavedArticlesActivity::class.java))
             }
             R.id.logout -> {
                 FirebaseAuth.getInstance().signOut()
@@ -132,26 +134,26 @@ class SavedArticlesActivity : AppCompatActivity() {
     @SuppressLint("CheckResult")
     private fun getSavedArticlesByCountry() {
         val result =
-            fireStore.getArticlesByCountry(FirebaseAuth.getInstance().currentUser?.displayName.toString())
+                fireStore.getArticlesByCountry(FirebaseAuth.getInstance().currentUser?.displayName.toString())
         result.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val mapEntry = task.result!!.data
                 if (mapEntry != null) {
                     for (item in mapEntry) {
                         newsAPIService.getNewsByCountry(item.value as String, item.key)
-                            .subscribeOn(
-                                Schedulers.io()
-                            )
-                            .toFlowable().subscribe({ articles ->
-                                for (article in articles.articles) {
-                                    showArticle(article)
-                                }
-                            }, { error ->
-                                Log.d(
-                                    "SavedArticlesActivity, error",
-                                    error.message.toString()
+                                .subscribeOn(
+                                        Schedulers.io()
                                 )
-                            })
+                                .toFlowable().subscribe({ articles ->
+                                    for (article in articles.articles) {
+                                        showArticle(article)
+                                    }
+                                }, { error ->
+                                    Log.d(
+                                            "SavedArticlesActivity, error",
+                                            error.message.toString()
+                                    )
+                                })
                     }
                 }
             } else {
@@ -167,26 +169,26 @@ class SavedArticlesActivity : AppCompatActivity() {
     @SuppressLint("CheckResult")
     private fun getSavedArticlesByTopic() {
         val result =
-            fireStore.getArticlesByTopic(FirebaseAuth.getInstance().currentUser?.displayName.toString())
+                fireStore.getArticlesByTopic(FirebaseAuth.getInstance().currentUser?.displayName.toString())
         result.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val mapEntry = task.result!!.data
                 if (mapEntry != null) {
                     for (item in mapEntry) {
                         newsAPIService.getNewsByTopic(item.value as String, item.key)
-                            .subscribeOn(
-                                Schedulers.io()
-                            )
-                            .toFlowable().subscribe({ articles ->
-                                for (article in articles.articles) {
-                                    showArticle(article)
-                                }
-                            }, { error ->
-                                Log.d(
-                                    "SavedArticlesActivity, error",
-                                    error.message.toString()
+                                .subscribeOn(
+                                        Schedulers.io()
                                 )
-                            })
+                                .toFlowable().subscribe({ articles ->
+                                    for (article in articles.articles) {
+                                        showArticle(article)
+                                    }
+                                }, { error ->
+                                    Log.d(
+                                            "SavedArticlesActivity, error",
+                                            error.message.toString()
+                                    )
+                                })
                     }
                 }
             } else {
@@ -202,26 +204,26 @@ class SavedArticlesActivity : AppCompatActivity() {
     @SuppressLint("CheckResult")
     private fun getSavedArticlesBySource() {
         val result =
-            fireStore.getArticlesBySource(FirebaseAuth.getInstance().currentUser?.displayName.toString())
+                fireStore.getArticlesBySource(FirebaseAuth.getInstance().currentUser?.displayName.toString())
         result.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val mapEntry = task.result!!.data
                 if (mapEntry != null) {
                     for (item in mapEntry) {
                         newsAPIService.getNewsBySource(item.value as String, item.key)
-                            .subscribeOn(
-                                Schedulers.io()
-                            )
-                            .toFlowable().subscribe({ articles ->
-                                for (article in articles.articles) {
-                                    showArticle(article)
-                                }
-                            }, { error ->
-                                Log.d(
-                                    "SavedArticlesActivity, error",
-                                    error.message.toString()
+                                .subscribeOn(
+                                        Schedulers.io()
                                 )
-                            })
+                                .toFlowable().subscribe({ articles ->
+                                    for (article in articles.articles) {
+                                        showArticle(article)
+                                    }
+                                }, { error ->
+                                    Log.d(
+                                            "SavedArticlesActivity, error",
+                                            error.message.toString()
+                                    )
+                                })
                     }
                 }
             } else {
