@@ -8,6 +8,11 @@ import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
+/**
+ * This service interacts with our firebase cloud storage and allows us to store and retrieve
+ * information.
+ * @author Seabstian Gappa
+ */
 class FireStoreService {
     private val db: FirebaseFirestore = Firebase.firestore
 
@@ -15,6 +20,9 @@ class FireStoreService {
         private const val TAG = "FireStoreService"
     }
 
+    /**
+     * Save a preference to a users account in (preference name, preference type) format.
+     */
     fun savePreferences(collectionName: String, data: MutableMap<String, Any>) {
         db.collection(collectionName)
                 .document("Preferences")
@@ -25,6 +33,9 @@ class FireStoreService {
                 }
     }
 
+    /**
+     * Retrieves all preferences.
+     */
     fun getPreferences(collectionName: String): Task<DocumentSnapshot> {
 
         return db.collection(collectionName)
@@ -42,6 +53,9 @@ class FireStoreService {
                 }
     }
 
+    /**
+     * Save article source preference in (articleName, articleSource) format.
+     */
     fun saveArticleBySource(collectionName: String, data: MutableMap<String, Any>) {
         db.collection(collectionName)
             .document("Articles")
@@ -54,6 +68,9 @@ class FireStoreService {
             }
     }
 
+    /**
+     * Save article country preference in (articleName, articleCountry) format.
+     */
     fun saveArticleByCountry(collectionName: String, data: MutableMap<String, Any>) {
         db.collection(collectionName)
             .document("Articles")
@@ -66,6 +83,9 @@ class FireStoreService {
             }
     }
 
+    /**
+     * Save article topic preference in (articleName, articleTopic) format.
+     */
     fun saveArticleByTopic(collectionName: String, data: MutableMap<String, Any>) {
         db.collection(collectionName)
             .document("Articles")
@@ -78,6 +98,9 @@ class FireStoreService {
             }
     }
 
+    /**
+     * Get all saved articles by source.
+     */
     fun getArticlesBySource(collectionName: String): Task<DocumentSnapshot> {
         return db.collection(collectionName)
             .document("Articles")
@@ -96,6 +119,9 @@ class FireStoreService {
             }
     }
 
+    /**
+     * Get all saved articles by country.
+     */
     fun getArticlesByCountry(collectionName: String): Task<DocumentSnapshot> {
         return db.collection(collectionName)
             .document("Articles")
@@ -114,6 +140,9 @@ class FireStoreService {
             }
     }
 
+    /**
+     * Get all saved articles by topic.
+     */
     fun getArticlesByTopic(collectionName: String): Task<DocumentSnapshot> {
         return db.collection(collectionName)
             .document("Articles")

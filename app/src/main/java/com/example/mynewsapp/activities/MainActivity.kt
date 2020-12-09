@@ -8,6 +8,11 @@ import android.os.Looper
 import com.example.mynewsapp.R
 import com.google.firebase.auth.FirebaseAuth
 
+/**
+ * On app launch resolve if user is authenticated, this determines whether to navigate
+ * to news page or ask the user to sign in.
+ * @author Sebastian Gappa
+ */
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mAuth: FirebaseAuth

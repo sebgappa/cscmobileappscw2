@@ -17,6 +17,10 @@ import java.text.Normalizer
 import java.util.*
 import kotlin.collections.ArrayList
 
+/**
+ * A search interface activity, we can query a data set of preferences to save to firebase.
+ * @author Sebastian Gappa
+ */
 class SearchActivity: AppCompatActivity() {
 
     private var listView: ListView? = null
@@ -24,6 +28,10 @@ class SearchActivity: AppCompatActivity() {
     private var adapter: SearchListViewAdapter? = null
     private val fireStore = FireStoreService()
 
+    /**
+     * Inflates the search widget on the page and waits for search results to be populated.
+     * Then we can save the clicked search result to firebase to read in our "FavoriteInfoActivity".
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
@@ -59,6 +67,9 @@ class SearchActivity: AppCompatActivity() {
         }
     }
 
+    /**
+     * Compares normalised search query and data to check for full or partial match.
+     */
     private fun search(query: String) {
         val searchData = arrayOf(
             arrayOf("United Kingdom", "Country"),
@@ -98,6 +109,9 @@ class SearchActivity: AppCompatActivity() {
         adapter?.notifyDataSetChanged()
     }
 
+    /**
+     * Normalises string into a list of complete lowercase words.
+     */
     private fun normalise(query: String): List<String> {
         val list = Normalizer.normalize(query.toLowerCase(Locale.ROOT), Normalizer.Form.NFD)
             .replace("\\p{M}".toRegex(), "")

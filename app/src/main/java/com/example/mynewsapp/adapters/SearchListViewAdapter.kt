@@ -11,6 +11,10 @@ import android.widget.TextView
 import com.example.mynewsapp.R
 import com.example.mynewsapp.models.PreferenceModel
 
+/**
+ * Displays the search results in a listView using custom PreferenceModel.
+ * @author Sebastian Gappa
+ */
 class SearchListViewAdapter(private val activity: Activity, searchResults: List<PreferenceModel>): BaseAdapter() {
 
     private var searchResults = ArrayList<PreferenceModel>()

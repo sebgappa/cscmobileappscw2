@@ -16,10 +16,18 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 
+/**
+ * This activity is the main app page, it displays all articles based on user preferences.
+ * @author Sebastian Gappa
+ */
 class MyNewsPageActivity : AppCompatActivity() {
 
     private val fireStore = FireStoreService()
 
+    /**
+     * When the activity is created we call the fireStoreService to ask firebase cloud storage
+     * what preferences of news the user has, then we can populate our tabs with this information.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_news_page)
@@ -49,12 +57,19 @@ class MyNewsPageActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Inflates the app toolbar for this activity view.
+     */
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.toolbar_layout, menu)
 
         return super.onCreateOptionsMenu(menu)
     }
 
+    /**
+     * Listens for which item in the toolbar was pressed and then launches the
+     * corresponding activity to navigate.
+     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.favorite -> {
@@ -74,6 +89,10 @@ class MyNewsPageActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    /**
+     * Sets up activity tabs with news by preferences stored in firebase, creates news fragments
+     * which request data from the newsAPI for the current preference.
+     */
     private fun setTabTitles(viewPager: ViewPager2, tabLayout: TabLayout, preferredNewsTitles: ArrayList<PreferenceModel>) {
         this@MyNewsPageActivity.runOnUiThread {
             viewPager.adapter =

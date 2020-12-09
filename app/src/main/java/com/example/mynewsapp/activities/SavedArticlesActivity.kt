@@ -20,6 +20,11 @@ import com.example.mynewsapp.services.NewsAPIService
 import com.google.firebase.auth.FirebaseAuth
 import io.reactivex.schedulers.Schedulers
 
+/**
+ * Second bonus feature, this activity retrieves articles saved in firebase by the user to view
+ * at a later date.
+ * @author Sebastian Gappa
+ */
 class SavedArticlesActivity : AppCompatActivity() {
 
     private val fireStore = FireStoreService()
@@ -29,6 +34,10 @@ class SavedArticlesActivity : AppCompatActivity() {
         this
     )
 
+    /**
+     * When the activity is created by query the fireStoreService to check which articles are
+     * saved in firebase cloud storage.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -44,12 +53,19 @@ class SavedArticlesActivity : AppCompatActivity() {
         getSavedArticlesByTopic()
     }
 
+    /**
+     * Inflates the app toolbar for this activity view.
+     */
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.toolbar_layout, menu)
 
         return super.onCreateOptionsMenu(menu)
     }
 
+    /**
+     * Listens for which item in the toolbar was pressed and then launches the
+     * corresponding activity to navigate.
+     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.headlines -> {
@@ -69,6 +85,9 @@ class SavedArticlesActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    /**
+     * Inflates our recyclerView and sets the adapter to our custom article cards.
+     */
     private fun setUpRecyclerView() {
         this@SavedArticlesActivity.runOnUiThread {
             val recyclerView = findViewById<RecyclerView>(R.id.main_recycler_view)
@@ -83,6 +102,11 @@ class SavedArticlesActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Retrieving the articles from the news API is an asynchronous process, therefore we cannot
+     * guarantee that all the articles will be available to display at the same time, instead we
+     * can just update the recyclerView adapter articleList with the article when it is available.
+     */
     private fun showArticle(article: ArticleDto) {
         this@SavedArticlesActivity.runOnUiThread {
             val myArticle = ArticleModel()
@@ -98,6 +122,10 @@ class SavedArticlesActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Checks which articles based by "Country" preference are stored within firebase and then
+     * queries the news API for that article.
+     */
     @SuppressLint("CheckResult")
     private fun getSavedArticlesByCountry() {
         val result =
@@ -129,6 +157,10 @@ class SavedArticlesActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Checks which articles based by "Topic" preference are stored within firebase and then
+     * queries the news API for that article.
+     */
     @SuppressLint("CheckResult")
     private fun getSavedArticlesByTopic() {
         val result =
@@ -160,6 +192,10 @@ class SavedArticlesActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Checks which articles based by "Source" preference are stored within firebase and then
+     * queries the news API for that article.
+     */
     @SuppressLint("CheckResult")
     private fun getSavedArticlesBySource() {
         val result =

@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
@@ -14,10 +15,18 @@ import com.example.mynewsapp.R
 import com.example.mynewsapp.services.FireStoreService
 import com.google.firebase.auth.FirebaseAuth
 
+/**
+ * This activity class allows users to manage their preferences.
+ * @author Sebastian Gappa
+ */
 class FavoriteInfoActivity: AppCompatActivity() {
 
     private val fireStoreService = FireStoreService()
 
+    /**
+     * When the activity is created we call the fireStoreService which retrieves saved preferences
+     * from google firebase cloud storage, these preferences are then displayed.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorite_info)
@@ -38,12 +47,19 @@ class FavoriteInfoActivity: AppCompatActivity() {
         setSupportActionBar(mainToolbar)
     }
 
+    /**
+     * Inflates the app toolbar for this activity view.
+     */
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.toolbar_layout, menu)
 
         return super.onCreateOptionsMenu(menu)
     }
 
+    /**
+     * Listens for which item in the toolbar was pressed and then launches the
+     * corresponding activity to navigate.
+     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.headlines -> {
@@ -63,10 +79,16 @@ class FavoriteInfoActivity: AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    /**
+     * Launches search activity to look for preferences.
+     */
     fun goToSearchPreferences(view: View) {
         startActivity(Intent(this, SearchActivity::class.java))
     }
 
+    /**
+     * Populates the listViews with preferences retrieved from firebase cloud storage.
+     */
     private fun populatePreferencesLists(mapEntry: Map<String, Any>) {
         var topicsArray = ArrayList<String>()
         var sourcesArray = ArrayList<String>()

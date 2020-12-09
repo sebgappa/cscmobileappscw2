@@ -14,6 +14,11 @@ import com.example.mynewsapp.activities.DisplayArticleActivity
 import com.example.mynewsapp.models.ArticleModel
 import com.squareup.picasso.Picasso
 
+/**
+ * Similar to the "ArticleAdapter" except for saved articles we don't need access to the articleList
+ * and don't want to allow the option to save the article again.
+ * @author
+ */
 class SavedArticleAdapter(
     private var articleList: MutableList<ArticleModel>,
     private val currentContext: Context

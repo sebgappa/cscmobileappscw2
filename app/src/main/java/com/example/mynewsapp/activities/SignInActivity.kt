@@ -13,6 +13,10 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 
+/**
+ * This activity is a welcome screen with a Google sign in option.
+ * @author Sebastian Gappa
+ */
 class SignInActivity: AppCompatActivity() {
 
     companion object {
@@ -22,6 +26,9 @@ class SignInActivity: AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
 
+    /**
+     * Prompts the user to sign in using Google and allows them to choose an account.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
@@ -39,7 +46,11 @@ class SignInActivity: AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+        super.onActivityResult(
+                requestCode,
+                resultCode,
+                data
+        )
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
@@ -61,6 +72,9 @@ class SignInActivity: AppCompatActivity() {
         }
     }
 
+    /**
+     * Successful sign in navigates to main app page.
+     */
     private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         mAuth.signInWithCredential(credential)
@@ -70,12 +84,15 @@ class SignInActivity: AppCompatActivity() {
                     Log.d("SignInActivity", "signInWithCredential:success")
                     startActivity(Intent(this, MyNewsPageActivity::class.java))
                 } else {
-                    // If sign in fails, display a message to the user.
+                    // Sign in fails
                     Log.w("SignInActivity", "signInWithCredential:failure", task.exception)
                 }
             }
     }
 
+    /**
+     * Opens Google sign in activity and waits for user to sign in using an exisitng account.
+     */
     private fun signIn() {
         val signInIntent = googleSignInClient.signInIntent
         startActivityForResult(signInIntent,

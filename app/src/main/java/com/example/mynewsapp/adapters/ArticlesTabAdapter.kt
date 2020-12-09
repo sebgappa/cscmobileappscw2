@@ -6,6 +6,11 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.mynewsapp.fragments.NewsFragment
 import com.example.mynewsapp.models.PreferenceModel
 
+/**
+ * Depending on which tab is selected this adapter will launch a new fragment to get the right
+ * news articles.
+ * @author Sebastian Gappa
+ */
 class ArticlesTabAdapter(activity: AppCompatActivity, private val titles: ArrayList<PreferenceModel>): FragmentStateAdapter(activity) {
 
     override fun createFragment(position: Int): Fragment {

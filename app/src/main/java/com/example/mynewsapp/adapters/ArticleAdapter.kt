@@ -20,6 +20,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 
 
+/**
+ * Main adapter for article model, allows us to inflate custom article cards within
+ * the recyclerView on the main app page.
+ * @author
+ */
 class ArticleAdapter(
     private var articleList: MutableList<ArticleModel>,
     private val currentContext: Context
@@ -44,6 +49,10 @@ class ArticleAdapter(
         setPropertiesForArticleViewHolder(articleViewHolder, article)
     }
 
+    /**
+     * Populates the article view with information about the article. Checks to see if the
+     * article has been pressed to load the contents or long pressed to save.
+     */
     private fun setPropertiesForArticleViewHolder(
         articleViewHolder: ViewHolder,
         article: ArticleModel
@@ -71,6 +80,10 @@ class ArticleAdapter(
         }
     }
 
+    /**
+     * Saves the key information about the article to firebase so that it can be retrieved at
+     * any point.
+     */
     private fun saveArticleToFireBase(article: ArticleModel) {
         when (article.getPreferenceModel()!!.type) {
             "Source" -> fireStore.saveArticleBySource(
@@ -87,6 +100,7 @@ class ArticleAdapter(
             )
         }
 
+        // Display success message
         val parentView: View =
             (currentContext as Activity).findViewById<View>(android.R.id.content).rootView
 
@@ -106,7 +120,12 @@ class ArticleAdapter(
         }
     }
 
+    /**
+     * Tries to resolve an image for the article and display is using picasso, if the article
+     * has not image it will use a default placeholder.
+     */
     private fun checkForUrlToImage(article: ArticleModel, articleViewHolder: ViewHolder) {
+
         if (article.articleImage().isEmpty()) {
             Picasso.get()
                 .load(placeHolderImage)

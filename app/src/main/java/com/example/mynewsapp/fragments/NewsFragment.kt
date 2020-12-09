@@ -19,6 +19,11 @@ import com.example.mynewsapp.services.NewsAPIService
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.schedulers.Schedulers
 
+/**
+ * The news fragment will query the NewsAPI service depending on the preference type and name passed
+ * to it, it will then display the articles retrieved in the recyclerView.
+ * @author Sebastian Gappa
+ */
 class NewsFragment(private val preferenceModel: PreferenceModel) : Fragment() {
     private val newsAPIService = NewsAPIService()
 
@@ -39,6 +44,9 @@ class NewsFragment(private val preferenceModel: PreferenceModel) : Fragment() {
         getNewsArticles()
     }
 
+    /**
+     * Queries the newsAPI service for articles based on the preference type and name.
+     */
     private fun getNewsArticles() {
 
         when (preferenceModel.type) {
@@ -100,6 +108,9 @@ class NewsFragment(private val preferenceModel: PreferenceModel) : Fragment() {
         }
     }
 
+    /**
+     * Inflates a recycler view with all the articles found.
+     */
     private fun populateArticles(articles: ArticlesDto) {
         activity?.runOnUiThread {
             val articleList = ArrayList<ArticleModel>()
@@ -131,6 +142,10 @@ class NewsFragment(private val preferenceModel: PreferenceModel) : Fragment() {
         }
     }
 
+    /**
+     * If a preference cannot be resolved we want to show general news and let the user know
+     * the preference was not found.
+     */
     @SuppressLint("CheckResult")
     private fun handleNewsAPIError(displayMessage: String) {
         view?.let {

@@ -25,8 +25,18 @@ import com.google.firebase.auth.FirebaseAuth
 import java.io.IOException
 import java.util.*
 
+/**
+ * First bonus feature, this activity retrieves local news information based on the users
+ * last known location.
+ * @author Sebastian Gappa
+ */
 class LocalNewsPageActivity : AppCompatActivity() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+    /**
+     * Launches android permissions activity to ask the user for location permission. If
+     * permission isn't granted show general news.
+     */
     private val requestPermission =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) { permissionGranted ->
                 if (permissionGranted) {
@@ -36,6 +46,10 @@ class LocalNewsPageActivity : AppCompatActivity() {
                 }
             }
 
+    /**
+     * Checks if the app has permission to access location data then tries to resolve last known
+     * location, otherwise requests for permission.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -55,12 +69,19 @@ class LocalNewsPageActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Inflates the app toolbar for this activity view.
+     */
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.toolbar_layout, menu)
 
         return super.onCreateOptionsMenu(menu)
     }
 
+    /**
+     * Listens for which item in the toolbar was pressed and then launches the
+     * corresponding activity to navigate.
+     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.favorite -> {
@@ -80,6 +101,10 @@ class LocalNewsPageActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    /**
+     * Sets up activity tabs with local news by "Country" and "City", creates news fragments
+     * which request data from the news API for the current city and country.
+     */
     private fun setTabTitles(preferredNewsTitles: ArrayList<PreferenceModel>) {
         val tabLayout = findViewById<TabLayout>(R.id.local_news_tab_layout)
         val viewPager = findViewById<ViewPager2>(R.id.local_news_view_pager)
@@ -99,6 +124,12 @@ class LocalNewsPageActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * "fusedLocationProviderClient" can only resolve last known location if there is already an
+     * existing client which has made a request, this function will make a request for the users
+     * location and then resolve it using the client into an address which can be broken down into
+     * city and country.
+     */
     private fun resolveLocation() {
         val mLocationRequest: LocationRequest = LocationRequest.create()
         mLocationRequest.interval = 60000
@@ -133,6 +164,10 @@ class LocalNewsPageActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Converts longitude and latitude coordinates into usable address information for current city
+     * and country.
+     */
     private fun resolveAddressFromLocation(longitude: Double, latitude: Double): Array<String>? {
         val geoCoder = Geocoder(this, Locale.getDefault())
 
@@ -140,6 +175,8 @@ class LocalNewsPageActivity : AppCompatActivity() {
             val address: List<Address> =
                     geoCoder.getFromLocation(latitude, longitude, 1)
 
+            /* We only need to return the first address near this location, they will all have the
+            same city and country */
             arrayOf(address[0].countryName, address[0].subAdminArea)
         } catch (e: IOException) {
             null
@@ -148,6 +185,9 @@ class LocalNewsPageActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * If the user doesn't want to grant permissions show general news
+     */
     private fun showGeneralNews() {
         setTabTitles(arrayListOf(PreferenceModel("", "")))
     }
