@@ -155,7 +155,8 @@ class SearchActivity : AppCompatActivity() {
      */
     private fun populateSourceSearchData(searchData: HashMap<String, String>, sources: SourcesDto): HashMap<String, String> {
         for (source in sources.sources) {
-            searchData[source.name] = "Source"
+            val cleanSourceName = source.name.replace(Regex("\\s*\\([^\\)]*\\)\\s*"), "");
+            searchData[cleanSourceName] = "Source"
         }
 
         return searchData

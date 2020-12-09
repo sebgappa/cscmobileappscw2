@@ -109,10 +109,10 @@ class LocalNewsPageActivity : AppCompatActivity() {
      * which request data from the news API for the current city and country.
      */
     private fun setTabTitles(preferredNewsTitles: ArrayList<PreferenceModel>) {
-        val tabLayout = findViewById<TabLayout>(R.id.local_news_tab_layout)
-        val viewPager = findViewById<ViewPager2>(R.id.local_news_view_pager)
-
         this@LocalNewsPageActivity.runOnUiThread {
+            val tabLayout = findViewById<TabLayout>(R.id.local_news_tab_layout)
+            val viewPager = findViewById<ViewPager2>(R.id.local_news_view_pager)
+
             viewPager.adapter =
                     ArticlesTabAdapter(this, preferredNewsTitles)
             TabLayoutMediator(
@@ -134,36 +134,38 @@ class LocalNewsPageActivity : AppCompatActivity() {
      * city and country.
      */
     private fun resolveLocation() {
-        val mLocationRequest: LocationRequest = LocationRequest.create()
-        mLocationRequest.interval = 60000
-        mLocationRequest.fastestInterval = 5000
-        mLocationRequest.priority = PRIORITY_HIGH_ACCURACY
-        try {
-            val mLocationCallback: LocationCallback = object : LocationCallback() {
-                override fun onLocationResult(locationResult: LocationResult?) {
-                    if (locationResult != null) {
-                        for (location in locationResult.locations) {
-                            fusedLocationClient.lastLocation
-                                    .addOnSuccessListener { lastLocation: Location? ->
-                                        if (lastLocation != null) {
-                                            val address = resolveAddressFromLocation(location.longitude, location.latitude)
-                                            setTabTitles(arrayListOf(
-                                                    PreferenceModel(address?.get(0), "Country"),
-                                                    PreferenceModel(address?.get(1), "Query")))
+        this@LocalNewsPageActivity.runOnUiThread {
+            val mLocationRequest: LocationRequest = LocationRequest.create()
+            mLocationRequest.interval = 60000
+            mLocationRequest.fastestInterval = 5000
+            mLocationRequest.priority = PRIORITY_HIGH_ACCURACY
+            try {
+                val mLocationCallback: LocationCallback = object : LocationCallback() {
+                    override fun onLocationResult(locationResult: LocationResult?) {
+                        if (locationResult != null) {
+                            for (location in locationResult.locations) {
+                                fusedLocationClient.lastLocation
+                                        .addOnSuccessListener { lastLocation: Location? ->
+                                            if (lastLocation != null) {
+                                                val address = resolveAddressFromLocation(location.longitude, location.latitude)
+                                                setTabTitles(arrayListOf(
+                                                        PreferenceModel(address?.get(0), "Country"),
+                                                        PreferenceModel(address?.get(1), "Query")))
+                                            }
                                         }
-                                    }
+                            }
+                        } else {
+                            showGeneralNews()
                         }
-                    } else {
-                        showGeneralNews()
                     }
                 }
-            }
 
-            LocationServices
-                    .getFusedLocationProviderClient(this)
-                    .requestLocationUpdates(mLocationRequest, mLocationCallback, null)
-        } catch (e: SecurityException) {
-            requestPermission.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+                LocationServices
+                        .getFusedLocationProviderClient(this)
+                        .requestLocationUpdates(mLocationRequest, mLocationCallback, null)
+            } catch (e: SecurityException) {
+                requestPermission.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+            }
         }
     }
 
