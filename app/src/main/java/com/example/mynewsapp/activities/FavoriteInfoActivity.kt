@@ -11,8 +11,10 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import com.example.mynewsapp.R
 import com.example.mynewsapp.services.FireStoreService
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 
 /**
@@ -34,7 +36,7 @@ class FavoriteInfoActivity: AppCompatActivity() {
         val result = fireStoreService.getPreferences(FirebaseAuth.getInstance().currentUser?.displayName.toString())
         result.addOnCompleteListener { task ->
             if(task.isSuccessful) {
-                var mapEntry = task.result!!.data
+                val mapEntry = task.result!!.data
                 if(mapEntry != null) {
                     populatePreferencesLists(mapEntry)
                 }
@@ -71,6 +73,9 @@ class FavoriteInfoActivity: AppCompatActivity() {
             R.id.saved -> {
                 startActivity(Intent(this, SavedArticlesActivity::class.java))
             }
+            R.id.account -> {
+                startActivity(Intent(this, AccountActivity::class.java))
+            }
             R.id.logout -> {
                 FirebaseAuth.getInstance().signOut()
                 startActivity(Intent(this, MainActivity::class.java))
@@ -88,11 +93,12 @@ class FavoriteInfoActivity: AppCompatActivity() {
 
     /**
      * Populates the listViews with preferences retrieved from firebase cloud storage.
+     * Listens for long click to remove preference from listView and firebase.
      */
     private fun populatePreferencesLists(mapEntry: Map<String, Any>) {
-        var topicsArray = ArrayList<String>()
-        var sourcesArray = ArrayList<String>()
-        var countriesArray = ArrayList<String>()
+        val topicsArray = ArrayList<String>()
+        val sourcesArray = ArrayList<String>()
+        val countriesArray = ArrayList<String>()
 
         for(item in mapEntry) {
             when(item.value) {
@@ -102,7 +108,7 @@ class FavoriteInfoActivity: AppCompatActivity() {
             }
         }
 
-        this@FavoriteInfoActivity!!.runOnUiThread {
+        this@FavoriteInfoActivity.runOnUiThread {
             val topicsAdapter = ArrayAdapter<String>(this,
                 R.layout.preference_list_item, topicsArray)
             val sourcesAdapter = ArrayAdapter<String>(this,
@@ -117,6 +123,72 @@ class FavoriteInfoActivity: AppCompatActivity() {
             topicsListView.adapter = topicsAdapter
             sourcesListView.adapter = sourcesAdapter
             countriesListView.adapter = countriesAdapter
+
+            topicsListView.onItemLongClickListener =
+                    AdapterView.OnItemLongClickListener { _, _, i, _ ->
+                        fireStoreService.removePreference(
+                                FirebaseAuth.getInstance().currentUser?.displayName.toString(),
+                                topicsArray[i])
+
+                        topicsAdapter.remove(topicsArray[i])
+                        topicsAdapter.notifyDataSetChanged()
+
+                        val parentView: View =
+                                this.findViewById<View>(android.R.id.content).rootView
+                        this.let {
+                            Snackbar.make(
+                                    parentView,
+                                    "Preference removed!",
+                                    Snackbar.LENGTH_SHORT
+                            ).setBackgroundTint(ContextCompat.getColor(this, R.color.colorError)).show()
+                        }
+
+                        return@OnItemLongClickListener true
+                    }
+
+            sourcesListView.onItemLongClickListener =
+                    AdapterView.OnItemLongClickListener { _, _, i, _ ->
+                        fireStoreService.removePreference(
+                                FirebaseAuth.getInstance().currentUser?.displayName.toString(),
+                                sourcesArray[i])
+
+                        sourcesAdapter.remove(sourcesArray[i])
+                        sourcesAdapter.notifyDataSetChanged()
+
+                        val parentView: View =
+                                this.findViewById<View>(android.R.id.content).rootView
+                        this.let {
+                            Snackbar.make(
+                                    parentView,
+                                    "Preference removed!",
+                                    Snackbar.LENGTH_SHORT
+                            ).setBackgroundTint(ContextCompat.getColor(this, R.color.colorError)).show()
+                        }
+
+                        return@OnItemLongClickListener true
+                    }
+
+            countriesListView.onItemLongClickListener =
+                    AdapterView.OnItemLongClickListener { _, _, i, _ ->
+                        fireStoreService.removePreference(
+                                FirebaseAuth.getInstance().currentUser?.displayName.toString(),
+                                countriesArray[i])
+
+                        countriesAdapter.remove(countriesArray[i])
+                        countriesAdapter.notifyDataSetChanged()
+
+                        val parentView: View =
+                                this.findViewById<View>(android.R.id.content).rootView
+                        this.let {
+                            Snackbar.make(
+                                    parentView,
+                                    "Preference removed!",
+                                    Snackbar.LENGTH_SHORT
+                            ).setBackgroundTint(ContextCompat.getColor(this, R.color.colorError)).show()
+                        }
+
+                        return@OnItemLongClickListener true
+                    }
         }
     }
 }

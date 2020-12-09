@@ -17,4 +17,7 @@
     <string name="topic_not_found">Sorry this topic can\'t be found. Showing general news</string>
     <string name="source_not_found">Sorry this source can\'t be found. Showing general news</string>
     <string name="saved">Saved articles</string>
+    <string name="account_name">Name:</string>
+    <string name="account_email_address">Email address:</string>
+    <string name="phone_number">Phone number:</string>
 </resources>

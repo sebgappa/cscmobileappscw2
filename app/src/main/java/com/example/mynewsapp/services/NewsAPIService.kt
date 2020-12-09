@@ -6,6 +6,8 @@ import com.dfl.newsapi.NewsApiRepository
 import com.dfl.newsapi.enums.Category
 import com.dfl.newsapi.enums.Country
 import com.dfl.newsapi.model.ArticlesDto
+import com.dfl.newsapi.model.SourceDto
+import com.dfl.newsapi.model.SourcesDto
 import com.example.mynewsapp.R
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.Single
@@ -18,7 +20,7 @@ import kotlin.collections.HashMap
  * @author Sebastian Gappa
  */
 class NewsAPIService {
-    private val newsApiRepository = NewsApiRepository("f1010fbbbebb48aba026e6c2c47cc9e2")
+    private val newsApiRepository = NewsApiRepository("aef915265c9943c5a89ed1c09de65f87")
     private val countries: MutableMap<String, String> = HashMap()
     private val defaultPageSize = 30
     private val defaultPage = 1
@@ -99,6 +101,13 @@ class NewsAPIService {
             pageSize = defaultPageSize,
             page = defaultPage
         )
+    }
+
+    /**
+     * Returns all available sources.
+     */
+    fun getSources(): Single<SourcesDto> {
+        return newsApiRepository.getSources()
     }
 
     /**

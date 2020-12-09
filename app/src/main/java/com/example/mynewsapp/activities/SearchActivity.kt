@@ -4,29 +4,35 @@ import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.AdapterView
 import android.widget.ListView
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
+import com.dfl.newsapi.model.SourcesDto
 import com.example.mynewsapp.R
 import com.example.mynewsapp.adapters.SearchListViewAdapter
 import com.example.mynewsapp.models.PreferenceModel
 import com.example.mynewsapp.services.FireStoreService
+import com.example.mynewsapp.services.NewsAPIService
 import com.google.firebase.auth.FirebaseAuth
+import io.reactivex.schedulers.Schedulers
 import java.text.Normalizer
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 /**
  * A search interface activity, we can query a data set of preferences to save to firebase.
  * @author Sebastian Gappa
  */
-class SearchActivity: AppCompatActivity() {
+class SearchActivity(): AppCompatActivity() {
 
     private var listView: ListView? = null
     private var searchResults = ArrayList<PreferenceModel>()
     private var adapter: SearchListViewAdapter? = null
     private val fireStore = FireStoreService()
+    private val newsAPIService = NewsAPIService()
 
     /**
      * Inflates the search widget on the page and waits for search results to be populated.
@@ -62,7 +68,16 @@ class SearchActivity: AppCompatActivity() {
 
         if (Intent.ACTION_SEARCH == intent.action) {
             intent.getStringExtra(SearchManager.QUERY)?.also { query ->
-                search(query)
+                newsAPIService.getSources()
+                        .subscribeOn(
+                                Schedulers.io()
+                        )
+                        .toFlowable().subscribe({ sources ->
+                            search(query, sources)
+                        }, { error ->
+                            Log.d("SavedArticlesActivity, error", error.message.toString()
+                            )
+                        })
             }
         }
     }
@@ -70,43 +85,69 @@ class SearchActivity: AppCompatActivity() {
     /**
      * Compares normalised search query and data to check for full or partial match.
      */
-    private fun search(query: String) {
-        val searchData = arrayOf(
-            arrayOf("United Kingdom", "Country"),
-            arrayOf("Science", "Topic"),
-            arrayOf("BBC News", "Source"),
-            arrayOf("Google News", "Source"),
-            arrayOf("Technology", "Topic"),
-            arrayOf("Economics", "Topic"),
-            arrayOf("General", "Topic"),
-            arrayOf("Health", "Topic"),
-            arrayOf("Entertainment", "Topic"),
-            arrayOf("ITV News", "Source"),
-            arrayOf("Daily Mail", "Source"),
-            arrayOf("The Guardian", "Source"),
-            arrayOf("Germany", "Country"),
-            arrayOf("France", "Country"),
-            arrayOf("United States", "Country"),
-            arrayOf("Belgium", "Country")
-        )
+    private fun search(query: String, sources: SourcesDto) {
+        var searchData: HashMap<String, String> = HashMap()
+        searchData = populateSourceSearchData(searchData, sources)
+        searchData = populateCountrySearchData(searchData)
+        searchData = populateTopicSearchData(searchData)
 
         val normalisedQuery = normalise(query)
 
-        for (item in searchData) {
-
-            val normalisedItem = normalise(item[0])
+        for (item in searchData.keys) {
+            val normalisedItem = normalise(item)
 
             if (normalisedQuery.all { term -> normalisedItem.any { word -> word.contains(term) } }) {
                 searchResults.add(
-                    PreferenceModel(
-                        item[0],
-                        item[1]
-                    )
+                        PreferenceModel(
+                                item,
+                                searchData[item]
+                        )
                 )
             }
         }
 
         adapter?.notifyDataSetChanged()
+    }
+
+    /**
+     * Populates search data for all sources from newsAPI
+     */
+    private fun populateSourceSearchData(searchData: HashMap<String, String>, sources: SourcesDto): HashMap<String, String> {
+        for (source in sources.sources) {
+            searchData[source.name] = "Source"
+        }
+
+        return searchData
+    }
+
+    /**
+     * Populates search data for all countries for ISO locale
+     */
+    private fun populateCountrySearchData(searchData: HashMap<String, String>): HashMap<String, String> {
+        val countries = ArrayList<String>()
+        for (iso in Locale.getISOCountries()) {
+            val l = Locale("", iso)
+            countries.add(l.displayCountry)
+        }
+
+        for (country in countries) {
+            searchData[country] = "Country"
+        }
+
+        return searchData
+    }
+
+    /**
+     * Populates search data for all queryable topics to the newsAPI
+     */
+    private fun populateTopicSearchData(searchData: HashMap<String, String>): HashMap<String, String> {
+        val topics = arrayOf("Business", "Entertainment", "General", "Health", "Science", "Sports" ,"Technology")
+
+        for (topic in topics) {
+            searchData[topic] = "Topic"
+        }
+
+        return searchData
     }
 
     /**

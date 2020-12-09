@@ -93,6 +93,9 @@ class LocalNewsPageActivity : AppCompatActivity() {
             R.id.saved -> {
                 startActivity(Intent(this, SavedArticlesActivity::class.java))
             }
+            R.id.account -> {
+                startActivity(Intent(this, AccountActivity::class.java))
+            }
             R.id.logout -> {
                 FirebaseAuth.getInstance().signOut()
                 startActivity(Intent(this, MainActivity::class.java))

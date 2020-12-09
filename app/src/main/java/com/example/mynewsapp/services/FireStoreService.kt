@@ -3,6 +3,7 @@ package com.example.mynewsapp.services
 import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
@@ -50,6 +51,23 @@ class FireStoreService {
                 }
                 .addOnFailureListener { exception ->
                     Log.d(TAG, "get failed with ", exception)
+                }
+    }
+
+    /**
+     * Remove a preference.
+     */
+    fun removePreference(collectionName: String, field: String) {
+        val updates = hashMapOf<String, Any>(
+                field to FieldValue.delete()
+        )
+
+        db.collection(collectionName)
+                .document("Preferences")
+                .update(updates)
+                .addOnSuccessListener { Log.d(TAG, "Field successfully deleted!") }
+                .addOnFailureListener { exception ->
+                    Log.d(TAG, "delete failed with ", exception)
                 }
     }
 

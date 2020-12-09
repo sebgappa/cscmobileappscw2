@@ -103,15 +103,15 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/preferences_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:onClick="goToSearchPreferences"
-            android:text="Add"
-            app:icon="@drawable/add"></com.google.android.material.button.MaterialButton>
-
     </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/preferences_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:onClick="goToSearchPreferences"
+        android:text="Add"
+        app:icon="@drawable/add"></com.google.android.material.button.MaterialButton>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

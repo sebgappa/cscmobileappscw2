@@ -23,6 +23,7 @@
         <activity android:name=".activities.SignInActivity" />
         <activity android:name=".activities.LocalNewsPageActivity" />
         <activity android:name=".activities.SavedArticlesActivity" />
+        <activity android:name=".activities.AccountActivity" />
         <activity android:name=".activities.SearchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
